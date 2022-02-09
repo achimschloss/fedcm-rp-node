@@ -57,15 +57,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/success', (req, res) => {
-  res.render('success.html');
+app.get('/verify', (req, res) => {
+  // TODO: Verify the id token here.
+  res.status(200);
 });
 
 app.get('/', (req, res) => {
   res.render('index.html');
 });
 
-// listen for req :)
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;
 const listener = app.listen(port || process.env.PORT, () => {
   console.log('Your app is listening on port ' + listener.address().port);

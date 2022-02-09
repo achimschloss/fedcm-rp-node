@@ -1,3 +1,5 @@
+import { html, render } from 'lit';
+
 const $ = document.querySelector.bind(document);
 
 if (!'FederatedCredential' in window || !window.FederatedCredential.revoke) {
@@ -19,7 +21,9 @@ const signIn = async () => {
           nonce: 1111
         }]
       }
-    })
+    });
+    // TODO: Verify the id token
+    // TODO: If verified, display the profile and turn the sign-in button into sign-out.
   } catch (e) {
     console.error(e);
     toast(e);
@@ -29,4 +33,9 @@ const signIn = async () => {
 const toast = (text) => {
   $('#snackbar').labelText = text;
   $('#snackbar').show();
+}
+
+const displayProfile = (profile) => {
+  render(html`<div>
+  </div>`, $('#profile'));
 }
