@@ -59,6 +59,7 @@ app.use((req, res, next) => {
 
 app.get('/verify', (req, res) => {
   // TODO: Verify the id token here.
+  // TODO: Set auth cookie and respond.
   res.status(200);
 });
 

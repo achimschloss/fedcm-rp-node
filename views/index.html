@@ -66,8 +66,9 @@
             }
           });
           // TODO: Verify the id token
-          _post('/verify', { idToken }).catch(e => )
+          await _post('/verify', { idToken });
           // TODO: If verified, display the profile and turn the sign-in button into sign-out.
+          location.href = '/home';
         } catch (e) {
           console.error(e);
           toast(e);
