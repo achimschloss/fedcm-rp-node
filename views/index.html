@@ -31,7 +31,7 @@
   </head>
   <body class="mdc-typography">
     <mwc-top-app-bar-fixed>
-      <span slot="title">Secure Payment Confirmation Shop</span>
+      <span slot="title">FedCM RP Demo</span>
     </mwc-top-app-bar-fixed>
     <main class="content">
       <h2 class="center">
@@ -41,9 +41,6 @@
         <p>
           You are about to pay <strong>$15.00</strong>.
         </p>
-        <div id="iframe" class="hidden center">
-          <iframe name="iframe" allow="payment https://spc-rp.glitch.me"></iframe>
-        </div>
         <p class="instructions">
           Click "Pay" button to proceed.
         </p>
@@ -58,41 +55,5 @@
         <mwc-button id="submit" raised>Pay</mwc-button>
       </form>
     </main>
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-    <script type="module">
-      import { pay, generateRandomCardNumber } from '/client.js';
-      const submit = document.querySelector('#submit');
-      const card_number = document.querySelector('#card_number');
-      const number = generateRandomCardNumber();
-      card_number.value = number;
-
-      submit.addEventListener('click', e => {
-        e.preventDefault();
-        if (!card_number.checkValidity()) {
-          card_number.validationMessage = 'input number is invalid';
-          return;
-        }
-        const number = card_number.value;
-        localStorage.setItem('card_number', number);
-        const price = '15.00'
-        pay(price, number).then(user => {
-          location.href = '/success';
-        }).catch(e => {
-          const container = document.querySelector('#iframe');
-          const form = document.querySelector('#form');
-          form.submit();
-          submit.disabled = true;
-          card_number.disabled = true;
-          container.classList.remove('hidden');
-          window.addEventListener('message', e => {
-            if (e.origin !== 'https://spc-rp.glitch.me') {
-              return;
-            }
-            alert(`Payment ${e.data.paid?'succeeded':'failed'}. Credential ${e.data.registered?'registered':'not registered'}`);
-            location.href = '/success';
-          });
-        });
-      });
-    </script>
   </body>
 </html>
