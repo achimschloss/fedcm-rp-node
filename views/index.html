@@ -37,23 +37,12 @@
       <h2 class="center">
         Welcome to shopping with us!
       </h2>
-      <form id="form" action="https://spc-rp.glitch.me/pay/" class="center" target="iframe" method="post">
-        <p>
-          You are about to pay <strong>$15.00</strong>.
-        </p>
-        <p class="instructions">
-          Click "Pay" button to proceed.
-        </p>
-        <mwc-textfield
-          id="card_number"
-          label="random card number"
-          name="number"
-          pattern="^[0-9]{12}$"
-          icon="credit_card"
-          place_holder="Enter your card number"
-          required></mwc-textfield>
-        <mwc-button id="submit" raised>Pay</mwc-button>
-      </form>
+      <p id="unsupported" class="warning hidden">
+        Your browser does not support FedCM. Try on Chrome for Android.
+      </p>
+      <mwc-button id="sign-in" raised>Sign-in</mwc-button>
     </main>
+    <script src="client.js"></script>
+    <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>
 </html>
