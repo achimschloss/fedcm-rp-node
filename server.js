@@ -58,9 +58,23 @@ app.use((req, res, next) => {
 });
 
 app.get('/verify', (req, res) => {
-  // TODO: Verify the id token here.
-  // TODO: Set auth cookie and respond.
-  res.status(200);
+  const { id_token } = req.body;
+
+  try {
+    // TODO: Verify the id token here.
+    // TODO: Set auth cookie and respond.
+    req.session.user_id = user_id;
+    req.session.email = email;
+    req.session.picture = picture;
+    res.status(200); 
+  } catch (e) {
+    res.status(401);
+  }
+});
+
+app.get('/signout', (req, res) => {
+  req.session.destroy();
+  req.redirect(307, '/');
 });
 
 app.get('/', (req, res) => {
