@@ -1,4 +1,4 @@
-import { html, render } from 'lit';
+import { html, render } from '/components-bundle.js';
 
 export const $ = document.querySelector.bind(document);
 
@@ -12,4 +12,4 @@ export const displayProfile = (profile) => {
   </div>`, $('#profile'));
 }
 
-export { html, render };
+export { html, render }
