@@ -1,4 +1,4 @@
-import { html, render } from '/components-bundle.js';
+import { html, render } from './components-bundle.js';
 
 export const $ = document.querySelector.bind(document);
 
@@ -11,5 +11,3 @@ export const displayProfile = (profile) => {
   render(html`<div>
   </div>`, $('#profile'));
 }
-
-export { html, render }
