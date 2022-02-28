@@ -1,4 +1,4 @@
-import { html, render } from '/components.js';
+import { html, render } from '/components-bundle.js';
 
 export const $ = document.querySelector.bind(document);
 
