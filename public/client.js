@@ -1,4 +1,4 @@
-import { html, render } from 'https://unpkg.com/lit@2.2.0/index.js?module';
+import { html, render } from 'https://unpkg.com/lit-html@2.2.0/lit-html.js?module';
 
 export const $ = document.querySelector.bind(document);
 
