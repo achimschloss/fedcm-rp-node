@@ -36,8 +36,7 @@ app.use(session({
   proxy: true,
   cookie:{
     httpOnly: true,
-    secure: true,
-    sameSite: 'none'
+    secure: true
   }
 }));
 
@@ -61,7 +60,6 @@ app.use((req, res, next) => {
 
 app.post('/verify', csrfCheck, (req, res) => {
   const { idToken } = req.body;
-  console.log(idToken);
 
   try {
     const nonce = req.session.nonce.toString();
@@ -70,11 +68,9 @@ app.post('/verify', csrfCheck, (req, res) => {
     const token = jwt.verify(idToken, 'xxxxx', {
       issuer: 'https://fedcm-idp-demo.glitch.me',
       nonce,
-      audience: '11111'
+      audience: '1111'
     });
 
-    console.log(token);
-    
     const user = getUser(token.sub, token.email, token.name, token.picture);
 
     req.session.user_id = user.user_id;
@@ -83,7 +79,7 @@ app.post('/verify', csrfCheck, (req, res) => {
     req.session.picture = user.picture;
     res.status(200).json(user);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     res.status(401).json({ error: 'ID token verification failed.'});
   }
 });
