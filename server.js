@@ -41,8 +41,6 @@ app.use(session({
   }
 }));
 
-console.log('test')
-
 app.use((req, res, next) => {
   if (process.env.PROJECT_DOMAIN) {
     process.env.HOSTNAME = `${process.env.PROJECT_DOMAIN}.glitch.me`;
