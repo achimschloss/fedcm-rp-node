@@ -64,17 +64,14 @@ app.post('/verify', csrfCheck, (req, res) => {
   console.log(idToken);
 
   try {
-    const token = jwt.verify(idToken, 'xxxxx');
-
-    if (token.nonce !== req.session.nonce) {
-      throw new Error('Nonce did not match.');
-    } else if (token.iss !== 'https://fedcm-idp-demo.glitch.me') {
-      throw new Error('Issuer did not match.');
-    } else if (token.aud !== '11111') {
-      throw new Error('Audience did not match.');
-    } else if (token.exp < (new Date()).getTime()) {
-      throw new Error('ID token already expired.');
-    }
+    const nonce = req.session.nonce.toString();
+    console.log(typeof nonce, nonce);
+    // TODO: Check if there's any other criteria is missing
+    const token = jwt.verify(idToken, 'xxxxx', {
+      issuer: 'https://fedcm-idp-demo.glitch.me',
+      nonce,
+      audience: '11111'
+    });
 
     console.log(token);
     
@@ -109,7 +106,7 @@ app.get('/home', sessionCheck, (req, res) => {
 app.get('/', (req, res) => {
   const nonce = Math.floor(Math.random()*10e10);
   // TODO: Shouldn't I timeout this?
-  req.session.nonce = nonce;
+  req.session.nonce = nonce.toString();
   res.render('index.html', { nonce });
 });
 
