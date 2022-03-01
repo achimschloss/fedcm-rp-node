@@ -58,17 +58,21 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/verify', (req, res) => {
+app.post('/verify', (req, res) => {
   const { id_token } = req.body;
+  console.log(id_token);
 
   try {
-    // TODO: Verify the id token here.
-    // TODO: Set auth cookie and respond.
-    req.session.user_id = user_id;
-    req.session.email = email;
-    req.session.picture = picture;
+    const token = jwt.verify(id_token, 'xxxxx');
+    console.log(token);
+    // TODO: Verify nonce
+    req.session.user_id = token.user_id;
+    req.session.username = token.username;
+    req.session.name = token.name;
+    req.session.picture = token.picture;
     res.status(200);
   } catch (e) {
+    console.error(e);
     res.status(401).json({ error: 'ID token verification failed.'});
   }
 });
