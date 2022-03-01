@@ -41,6 +41,8 @@ app.use(session({
   }
 }));
 
+console.log('test')
+
 app.use((req, res, next) => {
   if (process.env.PROJECT_DOMAIN) {
     process.env.HOSTNAME = `${process.env.PROJECT_DOMAIN}.glitch.me`;
@@ -61,15 +63,10 @@ app.use((req, res, next) => {
 
 app.post('/verify', csrfCheck, (req, res) => {
   const { idToken } = req.body;
-  console.log('test test');
   console.log(idToken);
 
   try {
     const nonce = req.session.nonce.toString();
-    
-    const decoded = jwt.decode(idToken);
-    console.log(decoded);
-    console.log(nonce);
 
     // TODO: Check if there's any other criteria is missing
     const token = jwt.verify(idToken, 'xxxxx', {

@@ -10,7 +10,6 @@ const adapter = new FileSync('.data/db.json');
 const db = low(adapter);
 
 function csrfCheck(req, res, next) {
-  console.log('Sec-FedCM-CSRF:', req.header('Sec-FedCM-CSRF'));
   if (req.header('X-Requested-With') === 'XMLHttpRequest' ||
       req.header('Sec-FedCM-CSRF') === '?1') {
     next();
