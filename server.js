@@ -61,18 +61,20 @@ app.use((req, res, next) => {
 
 app.post('/verify', csrfCheck, (req, res) => {
   const { idToken } = req.body;
+  console.log('test test');
   console.log(idToken);
 
   try {
     const nonce = req.session.nonce.toString();
     
-    const decoded = jwt.decode(idToken, 'xxxxx')
+    const decoded = jwt.decode(idToken);
     console.log(decoded);
     console.log(nonce);
+
     // TODO: Check if there's any other criteria is missing
     const token = jwt.verify(idToken, 'xxxxx', {
       issuer: 'https://fedcm-idp-demo.glitch.me',
-      nonce: '40088154963',
+      nonce,
       audience: '11111'
     });
 
