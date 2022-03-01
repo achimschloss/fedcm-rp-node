@@ -56,7 +56,7 @@
 
       const signIn = async () => {
         try {
-          const result = await navigator.credentials.get({
+          const idToken = await navigator.credentials.get({
             federated: {
               providers: [{
                 url: 'https://fedcm-idp-demo2.glitch.me',

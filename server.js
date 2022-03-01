@@ -66,9 +66,9 @@ app.get('/verify', (req, res) => {
     req.session.user_id = user_id;
     req.session.email = email;
     req.session.picture = picture;
-    res.status(200); 
+    res.status(200);
   } catch (e) {
-    res.status(401);
+    res.status(401).json({ error: 'ID token verification failed.'});
   }
 });
 
