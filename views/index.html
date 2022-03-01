@@ -43,9 +43,9 @@
       <mwc-button id="sign-in" raised>Sign-in</mwc-button>
     </main>
     <script type="module">
-      import { $, toast, _post } from './client.js';
+      import { $, toast, _fetch } from './client.js';
 
-      if (!'FederatedCredential' in window || !window.FederatedCredential.revoke) {
+      if ('FederatedCredential' in window && 'revoke' in window.FederatedCredential) {
         $('#sign-in').addEventListener('click', e => {
           e.preventDefault();
           signIn();
@@ -66,7 +66,7 @@
             }
           });
           // TODO: Verify the id token
-          await _post('/verify', { idToken });
+          await _fetch('/verify', { idToken });
           // TODO: If verified, display the profile and turn the sign-in button into sign-out.
           location.href = '/home';
         } catch (e) {
