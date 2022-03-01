@@ -19,8 +19,6 @@
 const express = require('express');
 const session = require('express-session');
 const hbs = require('hbs');
-const fs = require('fs');
-const low = require('lowdb');
 const jwt = require('jsonwebtoken');
 const { csrfCheck, sessionCheck, getUser } = require('./libs/common');
 const app = express();
