@@ -37,13 +37,11 @@
       <h2 class="center">
         Welcome to FedCM RP Demo!
       </h2>
-      <p id="unsupported" class="warning hidden">
-        Your browser does not support FedCM. Try on Chrome for Android.
-      </p>
       <div id="profile"></div>
       <mwc-button id="sign-out" raised>Sign-out</mwc-button>
     </main>
     <script type="module">
+      import { $, toast, loading, _fetch } from './client.js';
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>

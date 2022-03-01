@@ -19,8 +19,11 @@
 const express = require('express');
 const session = require('express-session');
 const hbs = require('hbs');
-const app = express();
+const fs = require('fs');
+const low = require('lowdb');
 const jwt = require('jsonwebtoken');
+const { csrfCheck, sessionCheck } = require('./libs/common');
+const app = express();
 
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
@@ -58,19 +61,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/verify', (req, res) => {
-  const { id_token } = req.body;
-  console.log(id_token);
+app.post('/verify', csrfCheck, (req, res) => {
+  const { idToken } = req.body;
+  console.log(idToken);
 
   try {
-    const token = jwt.verify(id_token, 'xxxxx');
+    const token = jwt.verify(idToken, 'xxxxx');
     console.log(token);
     // TODO: Verify nonce
     req.session.user_id = token.user_id;
     req.session.username = token.username;
     req.session.name = token.name;
     req.session.picture = token.picture;
-    res.status(200);
+    res.status(200).json({})  ;
   } catch (e) {
     console.error(e);
     res.status(401).json({ error: 'ID token verification failed.'});
@@ -80,6 +83,15 @@ app.post('/verify', (req, res) => {
 app.get('/signout', (req, res) => {
   req.session.destroy();
   req.redirect(307, '/');
+});
+
+app.get('/home', sessionCheck, (req, res) => {
+  res.render('home.html', {
+    user_id: req.session.user_id,
+    username: req.session.username,
+    name: req.session.name,
+    picture: req.session.picture
+  })
 });
 
 app.get('/', (req, res) => {
