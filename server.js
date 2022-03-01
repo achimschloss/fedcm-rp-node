@@ -65,7 +65,7 @@ app.post('/verify', csrfCheck, (req, res) => {
 
   try {
     const token = jwt.verify(idToken, 'xxxxx');
-    // TODO: Verify nonce
+    // TODO: Verify nonce etc
 
     console.log(token);
     

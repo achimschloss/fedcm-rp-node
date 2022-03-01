@@ -9,7 +9,7 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('.data/db.json');
 const db = low(adapter);
 
-const csrfCheck = (req, res, next) => {
+function csrfCheck(req, res, next) {
   console.log('Sec-FedCM-CSRF:', req.header('Sec-FedCM-CSRF'));
   if (req.header('X-Requested-With') === 'XMLHttpRequest' ||
       req.header('Sec-FedCM-CSRF') === '?1') {
@@ -23,7 +23,7 @@ const csrfCheck = (req, res, next) => {
  * Checks CSRF protection using custom header `X-Requested-With`
  * If the session doesn't contain `signed-in`, consider the user is not authenticated.
  **/
-const sessionCheck = (req, res, next) => {
+function sessionCheck(req, res, next) {
   if (!req.session.user_id) {
     res.status(401).json({ error: 'not signed in.' });
     return;
@@ -37,7 +37,7 @@ const sessionCheck = (req, res, next) => {
   next();
 };
 
-const getUser = (user_id, username = '', name = '', picture = '') => {
+function getUser(user_id, username = '', name = '', picture = '') {
     // See if account already exists
   let user = db.get('users').find({ user_id }).value();
   // If user entry is not created yet, create one
