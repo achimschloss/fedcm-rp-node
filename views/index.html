@@ -44,10 +44,13 @@
       </p>
       <mwc-button id="sign-in" disabled raised>Sign-in</mwc-button>
       <div id="profile" class="center"></div>
+      <mwc-button id="idp">Visit your IDP</mwc-button>
     </main>
     <script type="module">
       import { $, toast, loading, _fetch } from './client.js';
       import { html, render } from 'https://unpkg.com/lit-html@2.2.0/lit-html.js?module';
+      
+      const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me';
 
       if ('FederatedCredential' in window && 'revoke' in window.FederatedCredential) {
         const button = $('#sign-in');
@@ -70,7 +73,7 @@
           const idToken = await navigator.credentials.get({
             federated: {
               providers: [{
-                url: 'https://fedcm-idp-demo.glitch.me',
+                url: IDP_ORIGIN,
                 clientId: '1111',
                 nonce
               }]
@@ -88,6 +91,9 @@
           toast(e.message);
         }
       }
+      $('#idp').addEventListener('click', e => {
+        location.href = IDP_ORIGIN;
+      })
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>
