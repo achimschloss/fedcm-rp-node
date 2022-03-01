@@ -33,6 +33,7 @@
     <mwc-top-app-bar-fixed>
       <span slot="title">FedCM RP Demo</span>
     </mwc-top-app-bar-fixed>
+    <mwc-linear-progress id="progress"></mwc-linear-progress>
     <main class="content">
       <h2 class="center">
         Welcome to FedCM RP Demo!
@@ -43,7 +44,7 @@
       <mwc-button id="sign-in" disabled raised>Sign-in</mwc-button>
     </main>
     <script type="module">
-      import { $, toast, _fetch } from './client.js';
+      import { $, toast, loading, _fetch } from './client.js';
 
       if ('FederatedCredential' in window && 'revoke' in window.FederatedCredential) {
         const button = $('#sign-in');
@@ -51,8 +52,10 @@
         button.addEventListener('click', async e => {
           e.preventDefault();
           button.disabled = true;
+          loading.start();
           await signIn();
           button.disabled = false;
+          loading.stop();
         })
       } else {
         $('#unsupported').classList.remove('hidden');
@@ -69,9 +72,8 @@
               }]
             }
           });
-          // TODO: Verify the id token
+          console.log(idToken);
           await _fetch('/verify', { idToken });
-          // TODO: If verified, display the profile and turn the sign-in button into sign-out.
           location.href = '/home';
         } catch (e) {
           console.error(e);

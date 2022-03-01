@@ -35,3 +35,17 @@ export const _fetch = async (path, payload = '') => {
     throw result.error;
   }
 };
+
+class Loading {
+  constructor() {
+    this.progress = $('#progress');
+  }
+  start() {
+    this.progress.indeterminate = true;    
+  }
+  stop() {
+    this.progress.indeterminate = false;    
+  }
+}
+
+export const loading = new Loading();

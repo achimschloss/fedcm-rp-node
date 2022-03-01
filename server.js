@@ -20,6 +20,7 @@ const express = require('express');
 const session = require('express-session');
 const hbs = require('hbs');
 const app = express();
+const jwt = require('jsonwebtoken');
 
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
