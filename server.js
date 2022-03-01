@@ -65,7 +65,16 @@ app.post('/verify', csrfCheck, (req, res) => {
 
   try {
     const token = jwt.verify(idToken, 'xxxxx');
-    // TODO: Verify nonce etc
+
+    if (token.nonce !== req.session.nonce) {
+      throw new Error('Nonce did not match.');
+    } else if (token.iss !== 'https://fedcm-idp-demo.glitch.me') {
+      throw new Error('Issuer did not match.');
+    } else if (token.aud !== '11111') {
+      throw new Error('Audience did not match.');
+    } else if (token.exp < (new Date()).getTime()) {
+      throw new Error('ID token already expired.');
+    }
 
     console.log(token);
     
@@ -94,11 +103,14 @@ app.get('/home', sessionCheck, (req, res) => {
     username: user.username,
     name: user.name,
     picture: user.picture
-  })
+  });
 });
 
 app.get('/', (req, res) => {
-  res.render('index.html');
+  const nonce = Math.floor(Math.random()*10e10);
+  // TODO: Shouldn't I timeout this?
+  req.session.nonce = nonce;
+  res.render('index.html', { nonce });
 });
 
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;
