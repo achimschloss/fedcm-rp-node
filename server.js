@@ -65,11 +65,14 @@ app.post('/verify', csrfCheck, (req, res) => {
 
   try {
     const nonce = req.session.nonce.toString();
-    console.log(typeof nonce, nonce);
+    
+    const decoded = jwt.decode(idToken, 'xxxxx')
+    console.log(decoded);
+    console.log(nonce);
     // TODO: Check if there's any other criteria is missing
     const token = jwt.verify(idToken, 'xxxxx', {
       issuer: 'https://fedcm-idp-demo.glitch.me',
-      nonce,
+      nonce: '40088154963',
       audience: '11111'
     });
 
@@ -106,7 +109,7 @@ app.get('/home', sessionCheck, (req, res) => {
 app.get('/', (req, res) => {
   const nonce = Math.floor(Math.random()*10e10);
   // TODO: Shouldn't I timeout this?
-  req.session.nonce = nonce.toString();
+  req.session.nonce = nonce;
   res.render('index.html', { nonce });
 });
 
