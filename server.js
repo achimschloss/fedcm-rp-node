@@ -22,7 +22,7 @@ const hbs = require('hbs');
 const fs = require('fs');
 const low = require('lowdb');
 const jwt = require('jsonwebtoken');
-const { csrfCheck, sessionCheck } = require('./libs/common');
+const { csrfCheck, sessionCheck, getUser } = require('./libs/common');
 const app = express();
 
 app.set('view engine', 'html');
@@ -67,13 +67,17 @@ app.post('/verify', csrfCheck, (req, res) => {
 
   try {
     const token = jwt.verify(idToken, 'xxxxx');
-    console.log(token);
     // TODO: Verify nonce
-    req.session.user_id = token.user_id;
-    req.session.username = token.username;
-    req.session.name = token.name;
-    req.session.picture = token.picture;
-    res.status(200).json({})  ;
+
+    console.log(token);
+    
+    const user = getUser(token.sub, token.email, token.name, token.picture);
+
+    req.session.user_id = user.user_id;
+    req.session.username = user.username;
+    req.session.name = user.name;
+    req.session.picture = user.picture;
+    res.status(200).json(user);
   } catch (e) {
     console.error(e);
     res.status(401).json({ error: 'ID token verification failed.'});
@@ -86,11 +90,12 @@ app.get('/signout', (req, res) => {
 });
 
 app.get('/home', sessionCheck, (req, res) => {
+  const user = res.locals.user;
   res.render('home.html', {
-    user_id: req.session.user_id,
-    username: req.session.username,
-    name: req.session.name,
-    picture: req.session.picture
+    user_id: user.user_id,
+    username: user.username,
+    name: user.name,
+    picture: user.picture
   })
 });
 

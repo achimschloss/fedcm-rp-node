@@ -35,13 +35,19 @@
     </mwc-top-app-bar-fixed>
     <main class="content">
       <h2 class="center">
-        Welcome to FedCM RP Demo!
+        Welcome {{name}} to FedCM RP Demo!
       </h2>
-      <div id="profile"></div>
+      <div id="profile">
+        <img src="{{picture}}" class="picture"><br/>
+        {{username}}
+      </div>
       <mwc-button id="sign-out" raised>Sign-out</mwc-button>
     </main>
     <script type="module">
       import { $, toast, loading, _fetch } from './client.js';
+      $('#sign-out').addEventListener(e => {
+        location.href = '/signout';
+      })
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>

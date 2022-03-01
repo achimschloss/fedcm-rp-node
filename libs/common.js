@@ -28,7 +28,7 @@ const sessionCheck = (req, res, next) => {
     res.status(401).json({ error: 'not signed in.' });
     return;
   }
-  const user = db.get('users').find({ username: req.session.username }).value();
+  const user = db.get('users').find({ user_id: req.session.user_id }).value();
   if (!user) {
     return res.status(401).json({ error: 'User not found.' });
   }
@@ -37,4 +37,20 @@ const sessionCheck = (req, res, next) => {
   next();
 };
 
-module.exports = { csrfCheck, sessionCheck };
+const getUser = (user_id, username = '', name = '', picture = '') => {
+    // See if account already exists
+  let user = db.get('users').find({ user_id }).value();
+  // If user entry is not created yet, create one
+  if (!user) {
+    user = {
+      user_id,
+      username,
+      name,
+      picture
+    };
+    db.get('users').push(user).write();
+  }
+  return user;
+}
+
+module.exports = { csrfCheck, sessionCheck, getUser };
