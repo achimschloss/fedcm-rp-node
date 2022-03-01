@@ -38,20 +38,24 @@
         Welcome to FedCM RP Demo!
       </h2>
       <p id="unsupported" class="warning hidden">
-        Your browser does not support FedCM. Try on Chrome for Android.
+        Your browser does not support FedCM. Try on Chrome for Android with a flag chrome://flags/#fedcm.
       </p>
-      <mwc-button id="sign-in" raised>Sign-in</mwc-button>
+      <mwc-button id="sign-in" disabled raised>Sign-in</mwc-button>
     </main>
     <script type="module">
       import { $, toast, _fetch } from './client.js';
 
       if ('FederatedCredential' in window && 'revoke' in window.FederatedCredential) {
-        $('#sign-in').addEventListener('click', e => {
+        const button = $('#sign-in');
+        button.disabled = false;
+        button.addEventListener('click', async e => {
           e.preventDefault();
-          signIn();
+          button.disabled = true;
+          await signIn();
+          button.disabled = false;
         })
       } else {
-        $('#unsupported').classList.remove('hidden');  
+        $('#unsupported').classList.remove('hidden');
       }
 
       const signIn = async () => {
