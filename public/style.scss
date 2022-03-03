@@ -58,9 +58,12 @@ body {
   }
 }
 
-mwc-button > a {
-  text-decoration: none;
-  color: inherit;
+mwc-button {
+  margin: 8px 0;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 iframe {
