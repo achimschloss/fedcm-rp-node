@@ -42,9 +42,12 @@
       <p id="unsupported" class="warning hidden">
         Your browser does not support FedCM. Try on Chrome for Android with a flag chrome://flags/#fedcm.
       </p>
+      <p class="instructions">
+        If you don't see a sign-in dialog below, you need to sign-in to the IDP first.
+      </p>
 <!--       <mwc-button id="sign-in" disabled raised>Sign-in</mwc-button> -->
       <div id="profile" class="center"></div>
-      <mwc-button id="idp">Visit your IDP to sign-in advance</mwc-button>
+      <mwc-button id="idp">Visit your IDP</mwc-button>
     </main>
     <script type="module">
       import { $, toast, loading, _fetch } from './client.js';
@@ -68,8 +71,8 @@
           const user = await _fetch('/verify', { idToken });
           render(html`
           <p>You are signed in!</p>
-          <p>name: ${user.name} (${user.username})</p>
           <img src="${user.picture}" class="picture">
+          <p>${user.name} (${user.username})</p>
           `, $('#profile'));
         } catch (e) {
           console.error(e);
@@ -85,10 +88,10 @@
         // button.addEventListener('click', async e => {
           // e.preventDefault();     
           // button.disabled = true;
-          loading.start();
+          // loading.start();
           await signIn();
           // button.disabled = false;
-          loading.stop();
+          // loading.stop();
         // })
       } else {
         $('#unsupported').classList.remove('hidden');
