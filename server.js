@@ -40,6 +40,9 @@ app.use(session({
   }
 }));
 
+const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me';
+const CLIENT_ID = 'https://fedcm-rp-demo.glitch.me';
+
 app.use((req, res, next) => {
   if (process.env.PROJECT_DOMAIN) {
     process.env.HOSTNAME = `${process.env.PROJECT_DOMAIN}.glitch.me`;
@@ -66,9 +69,9 @@ app.post('/verify', csrfCheck, (req, res) => {
 
     // TODO: Check if there's any other criteria is missing
     const token = jwt.verify(idToken, 'xxxxx', {
-      issuer: 'https://fedcm-idp-demo.glitch.me',
+      issuer: IDP_ORIGIN,
       nonce,
-      audience: '1111'
+      audience: CLIENT_ID
     });
 
     const user = getUser(token.sub, token.email, token.name, token.picture);
