@@ -89,7 +89,7 @@ app.post('/verify', csrfCheck, (req, res) => {
 
 app.get('/signout', (req, res) => {
   req.session.destroy();
-  req.redirect(307, '/');
+  res.redirect(307, '/');
 });
 
 app.get('/home', sessionCheck, (req, res) => {
