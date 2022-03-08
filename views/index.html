@@ -80,7 +80,7 @@
           <img src="${user.picture}" class="picture">
           <p>${user.name} (${user.username})</p>
           <mwc-button @click="${signout}" raised>Sign-out</mwc-button>
-          <mwc-button @click="${unregister}" raised>Unregister</mwc-button>
+          <mwc-button @click="${unregister}" disabled raised>Unregister</mwc-button>
           `, $('#profile'));
         } catch (e) {
           console.error(e);
