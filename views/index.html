@@ -103,20 +103,13 @@
           location.href = '/signout';
         }, 3000);
       }
+
       $('#idp').addEventListener('click', e => {
         location.href = IDP_ORIGIN;
       })
+
       if ('FederatedCredential' in window && 'login' in window.FederatedCredential.prototype) {
-        // const button = $('#sign-in');
-        // button.disabled = false;
-        // button.addEventListener('click', async e => {
-          // e.preventDefault();     
-          // button.disabled = true;
-          // loading.start();
-          await signIn();
-          // button.disabled = false;
-          // loading.stop();
-        // })
+        await signIn();
       } else {
         $('#unsupported').classList.remove('hidden');
       }
