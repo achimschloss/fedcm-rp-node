@@ -63,14 +63,7 @@
 
       const signIn = async () => {
         try {
-          const credential = await navigator.credentials.get({
-            federated: {
-              providers: [{
-                url: IDP_ORIGIN,
-                clientId: CLIENT_ID
-              }]
-            }
-          });
+          const credential = await getCredential();
           const nonce = $('meta[name="nonce"]').content;
           const { idToken } = await credential.login({ nonce });
           console.log(idToken);
@@ -79,7 +72,7 @@
           <p>You are signed in!</p>
           <img src="${user.picture}" class="picture">
           <p>${user.name} (${user.username})</p>
-          <mwc-button @click="${signout(user.username)}" raised>Sign-out</mwc-button>
+          <mwc-button @click="${signout(user.user_id)}" raised>Sign-out</mwc-button>
           <mwc-button @click="${unregister(user.username)}" raised>Unregister</mwc-button>
           `, $('#profile'));
         } catch (e) {
