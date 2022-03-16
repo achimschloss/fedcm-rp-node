@@ -73,25 +73,25 @@
           <img src="${user.picture}" class="picture">
           <p>${user.name} (${user.username})</p>
           <mwc-button @click="${signout(user.user_id)}" raised>Sign-out</mwc-button>
-          <mwc-button @click="${unregister(user.username)}" raised>Unregister</mwc-button>
+          <mwc-button @click="${unregister(user.user_id)}" raised>Unregister</mwc-button>
           `, $('#profile'));
         } catch (e) {
           console.error(e);
           toast(e.message);
         }
       }
-      const signout = (username) => async () => {
-        const credential = await getCredential(username);
-        await credential.logout(username);
+      const signout = (account_id) => async () => {
+        const credential = await getCredential(account_id);
+        await credential.logout(account_id);
         toast('You are signed out. Redirecting in 3.0 sec.');
         setTimeout(() => {
           location.href = '/signout';
         }, 3000);
       };
-      const unregister = (username) => async () => {
-        console.log(username);
+      const unregister = (account_id) => async () => {
+        console.log(account_id);
         const credential = await getCredential();
-        await credential.revoke(username);
+        await credential.revoke(account_id);
         toast('Your account is revoked. Redirecting in 3.0 sec.');
         setTimeout(() => {
           location.href = '/signout';
