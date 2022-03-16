@@ -53,14 +53,14 @@ class Loading {
 
 export const loading = new Loading();
 
-export const getCredential = async () => {
+export const getCredential = async (hint) => {
   const nonce = $('meta[name="nonce"]').content;
   return navigator.credentials.get({
     federated: {
       providers: [{
         url: IDP_ORIGIN,
         clientId: CLIENT_ID,
-        nonce
+        hint
       }]
     }
   });

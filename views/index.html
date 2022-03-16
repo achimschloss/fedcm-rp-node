@@ -79,7 +79,7 @@
           <p>You are signed in!</p>
           <img src="${user.picture}" class="picture">
           <p>${user.name} (${user.username})</p>
-          <mwc-button @click="${signout}" raised>Sign-out</mwc-button>
+          <mwc-button @click="${signout(user.username)}" raised>Sign-out</mwc-button>
           <mwc-button @click="${unregister(user.username)}" raised>Unregister</mwc-button>
           `, $('#profile'));
         } catch (e) {
@@ -87,15 +87,15 @@
           toast(e.message);
         }
       }
-      const signout = async () => {
-        const credential = await getCredential();
-        await credential.logout();
+      const signout = (username) => async () => {
+        const credential = await getCredential(username);
+        await credential.logout(username);
         toast('You are signed out. Redirecting in 3.0 sec.');
         setTimeout(() => {
           location.href = '/signout';
         }, 3000);
-      }
-      const unregister = (username) => (async () => {
+      };
+      const unregister = (username) => async () => {
         console.log(username);
         const credential = await getCredential();
         await credential.revoke(username);
@@ -103,7 +103,7 @@
         setTimeout(() => {
           location.href = '/signout';
         }, 3000);
-      });
+      };
 
       $('#idp').addEventListener('click', e => {
         location.href = IDP_ORIGIN;
