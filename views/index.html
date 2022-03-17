@@ -48,7 +48,7 @@
       </p>
 <!--       <mwc-button id="sign-in" disabled raised>Sign-in</mwc-button> -->
       <div id="profile" class="center"></div>
-      <mwc-button id="idp">Visit your IDP</mwc-button>
+      <mwc-button id="idp" raised>Sign-in on IDP</mwc-button>
       <p class="instructions">
         By signing in with an account ID of <code>mulitple-accounts</code> you can try mulitple accounts dialog.
       </p>
@@ -92,7 +92,6 @@
         }, 3000);
       };
       const unregister = (account_id) => async () => {
-        console.log(account_id);
         const credential = await getCredential();
         await credential.revoke(account_id);
         toast('Your account is revoked. Redirecting in 3.0 sec.');
