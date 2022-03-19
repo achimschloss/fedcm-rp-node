@@ -44,13 +44,15 @@
         Your browser does not support FedCM. Try on Chrome for Android with a flag chrome://flags/#fedcm.
       </p>
       <div id="profile" class="center"></div>
-      <mwc-button id="idp" raised>Sign-in on IDP</mwc-button>
-      <p class="instructions">
-        If you don't see a sign-in dialog below, you need to sign-in on the IDP first.
-      </p>
-      <p class="instructions">
-        Use account ID of "<code>mulitple-accounts</code>" to try mulitple accounts dialog.
-      </p>
+      <div id="login" class="center">
+        <mwc-button id="idp" raised>Sign-in on IDP</mwc-button>
+        <p class="instructions">
+          If you don't see a sign-in dialog below, you need to sign-in on the IDP first.
+        </p>
+        <p class="instructions">
+          Use account ID of "<code>mulitple-accounts</code>" to try mulitple accounts dialog.
+        </p>
+      </div>
     </main>
     <script type="module">
       import { $, toast, loading, _fetch, getCredential } from './client.js';
@@ -75,28 +77,39 @@
           <img src="${user.picture}" class="picture">
           <p>${user.name} (${user.username})</p>
           <mwc-button @click="${signout(user.user_id)}" raised>Sign-out</mwc-button>
-          <mwc-button @click="${unregister(user.user_id)}" raised>Unregister</mwc-button>
+          <mwc-button @click="${unregister(user.username)}" raised>Unregister</mwc-button>
           `, $('#profile'));
+          $('#login').classList.add('hidden');
         } catch (e) {
           console.error(e);
           toast(e.message);
         }
       }
       const signout = (account_id) => async () => {
-        const credential = await getCredential(account_id);
-        await credential.logout(account_id);
-        toast('You are signed out. Redirecting in 3.0 sec.');
-        setTimeout(() => {
-          location.href = '/signout';
-        }, 3000);
+        try {
+          const credential = await getCredential(account_id);
+          await credential.logout();
+          toast('You are signed out. Redirecting in 3.0 sec.');
+          setTimeout(() => {
+            location.href = '/signout';
+          }, 3000);
+        } catch (e) {
+          console.error(e);
+          toast(e.message);
+        }
       };
-      const unregister = (account_id) => async () => {
-        const credential = await getCredential();
-        await credential.revoke(account_id);
-        toast('Your account is revoked. Redirecting in 3.0 sec.');
-        setTimeout(() => {
-          location.href = '/signout';
-        }, 3000);
+      const unregister = (username) => async () => {
+        try {
+          const credential = await getCredential();
+          await credential.revoke(username);
+          toast('Your account is revoked. Redirecting in 3.0 sec.');
+          setTimeout(() => {
+            location.href = '/signout';
+          }, 3000); 
+        } catch (e) {
+          console.error(e);
+          toast(e.message);
+        }
       };
 
       $('#idp').addEventListener('click', e => {
