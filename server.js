@@ -106,7 +106,8 @@ app.get('/', (req, res) => {
   const nonce = Math.floor(Math.random()*10e10);
   // TODO: Shouldn't I timeout this?
   req.session.nonce = nonce;
-  res.render('index.html', { nonce });
+  const ot_token = process.env.OT_TOKEN;
+  res.render('index.html', { nonce, ot_token });
 });
 
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;
