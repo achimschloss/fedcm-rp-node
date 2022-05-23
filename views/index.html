@@ -75,7 +75,7 @@
           const user = await _fetch('/verify', { idToken });
           render(html`
           <p>You are signed in!</p>
-          <img src="${user.picture}" class="picture">
+          <img src="${user.picture}" width="32" height="32" class="picture">
           <p>${user.name} (${user.username})</p>
           <mwc-button @click="${signout(user.user_id)}" raised>Sign-out</mwc-button>
           <mwc-button @click="${unregister(user.username)}" raised>Unregister</mwc-button>
