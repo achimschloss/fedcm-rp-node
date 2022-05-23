@@ -68,9 +68,8 @@ app.post('/verify', csrfCheck, (req, res) => {
     const nonce = req.session.nonce.toString();
 
     // TODO: Check if there's any other criteria is missing
-    const token = jwt.verify(idToken, 'xxxxx', {
-      issuer: IDP_ORIGIN
-    });
+    console.log(idToken);
+    const token = jwt.verify(idToken);
 
     const user = getUser(token.sub, token.email, token.name, token.picture);
 
