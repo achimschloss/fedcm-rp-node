@@ -46,12 +46,8 @@
       </p>
       <div id="profile" class="center"></div>
       <div id="login" class="center">
-        <mwc-button id="idp" raised>Sign-in on IDP</mwc-button>
         <p class="instructions">
           If you don't see a sign-in dialog, you need to sign-in on the IDP first.
-        </p>
-        <p class="instructions">
-          Use account ID of "<code>mulitple-accounts</code>" to try mulitple accounts dialog.
         </p>
       </div>
     </main>
@@ -63,7 +59,7 @@
         location.href = 'https://glitch.com/edit/#!/furtive-candy-cauliflower';
       });
 
-      const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me';
+      const IDP_ORIGIN = 'https://fedcm.digitalart.hamburg/';
       const CLIENT_ID = 'https://fedcm-rp-demo.glitch.me';
 
       const signIn = async () => {
@@ -117,9 +113,9 @@
         }
       };
 
-      $('#idp').addEventListener('click', e => {
-        location.href = IDP_ORIGIN;
-      })
+      //$('#idp').addEventListener('click', e => {
+      //  location.href = IDP_ORIGIN;
+      //})
 
       if ('FederatedCredential' in window && 'login' in window.FederatedCredential.prototype) {
         await signIn();
