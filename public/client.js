@@ -1,7 +1,7 @@
 import { html, render } from 'https://unpkg.com/lit-html@2.2.0/lit-html.js?module';
 
 const IDP_ORIGIN = 'https://fedcm.digitalart.hamburg/';
-const CLIENT_ID = 'https://fedcm-rp-demo.glitch.me';
+const CLIENT_ID = 'https://furtive-candy-cauliflower.glitch.me/';
 
 export const $ = document.querySelector.bind(document);
 
