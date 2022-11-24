@@ -62,14 +62,12 @@ app.use((req, res, next) => {
 });
 
 app.post('/verify', csrfCheck, (req, res) => {
-  const { idToken } = req.body;
-
   try {
     const nonce = req.session.nonce.toString();
 
     // TODO: Check if there's any other criteria is missing
-    console.log(idToken);
-    const token = jwt.verify(idToken, "xxxxxxx");
+    console.log(req.body.token);
+    const token = jwt.verify(req.body.token, "xxxxxxx");
     
     const user = getUser(token.sub, token.email, token.name, token.picture);
 
