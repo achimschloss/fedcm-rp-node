@@ -40,7 +40,7 @@ app.use(session({
   }
 }));
 
-const IDP_ORIGIN = 'https://fedcm.digitalart.hamburg/';
+const IDP_ORIGIN = 'https://fedcm.digitalart.hamburg:8000/';
 const CLIENT_ID = 'https://furtive-candy-cauliflower.glitch.me/';
 
 app.use((req, res, next) => {
