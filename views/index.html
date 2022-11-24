@@ -91,7 +91,7 @@
             render(
               html`
                 <p>You are signed in!</p>
-                <img src="${user.picture}" class="picture" />
+                <img src="${user.picture}" class="picture" width="40" />
                 <p>${user.name} (${user.username})</p>
                 <mwc-button @click="${signout(user.user_id)}" raised
                   >Sign-out</mwc-button
@@ -112,11 +112,9 @@
       const signout = (account_id) => async () => {
         try {
           loading.start();
-          const credential = await getCredential(account_id);
-          await credential.logout();
-          toast("You are signed out. Redirecting in 3.0 sec.");
+          toast('You are signed out. Redirecting in 3.0 sec.');
           setTimeout(() => {
-            location.href = "/signout";
+            location.href = '/signout';
           }, 3000);
         } catch (e) {
           loading.stop();
