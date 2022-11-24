@@ -69,9 +69,7 @@ app.post('/verify', csrfCheck, (req, res) => {
 
     // TODO: Check if there's any other criteria is missing
     console.log(idToken);
-    const token = jwt.verify(idToken, "xxxxxxx", {
-      nonce
-    });
+    const token = jwt.verify(idToken, "xxxxxxx");
     
     const user = getUser(token.sub, token.email, token.name, token.picture);
 
