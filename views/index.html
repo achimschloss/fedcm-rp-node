@@ -77,9 +77,6 @@
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
       });
 
-      const IDP_ORIGIN = "https://fedcm.digitalart.hamburg/";
-      const CLIENT_ID = "https://fedcm-rp-demo.glitch.me";
-
       const signIn = async () => {
         try {
           try {
@@ -137,10 +134,6 @@
           toast(e.message);
         }
       };
-
-      //$('#idp').addEventListener('click', e => {
-      //  location.href = IDP_ORIGIN;
-      //})
 
       if ("IdentityCredential" in window) {
         await signIn();
