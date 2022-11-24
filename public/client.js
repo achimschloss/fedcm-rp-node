@@ -57,12 +57,14 @@ export const loading = new Loading();
 export const getCredential = async (hint) => {
   const nonce = $('meta[name="nonce"]').content;
   return navigator.credentials.get({
-    federated: {
+    identity: {
       providers: [{
-        url: IDP_ORIGIN,
+        configURL: IDP_ORIGIN,
         clientId: CLIENT_ID,
+        nonce: nonce,
         hint
       }]
     }
   });
 };
+
