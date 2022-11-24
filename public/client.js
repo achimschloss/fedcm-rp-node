@@ -1,32 +1,35 @@
-import { html, render } from 'https://unpkg.com/lit-html@2.2.0/lit-html.js?module';
+import {
+  html,
+  render,
+} from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
-const IDP_ORIGIN = 'https://fedcm.digitalart.hamburg/fedcm.json';
+const IDP_ORIGIN = "https://fedcm.digitalart.hamburg/fedcm.json";
+const IDP_B_ORIGIN = "https://idp-b-test.de:8000/fedcm.json";
 //const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me/'
-const CLIENT_ID = 'https://furtive-candy-cauliflower.glitch.me/';
+const CLIENT_ID = "https://furtive-candy-cauliflower.glitch.me/";
 
 export const $ = document.querySelector.bind(document);
 
 export const toast = (text) => {
-  $('#snackbar').labelText = text;
-  $('#snackbar').show();
-}
+  $("#snackbar").labelText = text;
+  $("#snackbar").show();
+};
 
 export const displayProfile = (profile) => {
-  render(html`<div>
-  </div>`, $('#profile'));
-}
+  render(html`<div></div>`, $("#profile"));
+};
 
-export const _fetch = async (path, payload = '') => {
+export const _fetch = async (path, payload = "") => {
   const headers = {
-    'X-Requested-With': 'XMLHttpRequest',
+    "X-Requested-With": "XMLHttpRequest",
   };
   if (payload && !(payload instanceof FormData)) {
-    headers['Content-Type'] = 'application/json';
+    headers["Content-Type"] = "application/json";
     payload = JSON.stringify(payload);
   }
   const res = await fetch(path, {
-    method: 'POST',
-    credentials: 'same-origin',
+    method: "POST",
+    credentials: "same-origin",
     headers: headers,
     body: payload,
   });
@@ -42,13 +45,13 @@ export const _fetch = async (path, payload = '') => {
 
 class Loading {
   constructor() {
-    this.progress = $('#progress');
+    this.progress = $("#progress");
   }
   start() {
-    this.progress.indeterminate = true;    
+    this.progress.indeterminate = true;
   }
   stop() {
-    this.progress.indeterminate = false;    
+    this.progress.indeterminate = false;
   }
 }
 
@@ -58,13 +61,16 @@ export const getCredential = async (hint) => {
   const nonce = $('meta[name="nonce"]').content;
   return navigator.credentials.get({
     identity: {
-      providers: [{
-        configURL: IDP_ORIGIN,
-        clientId: CLIENT_ID,
-        nonce: nonce,
-        hint
-      }]
-    }
+      providers: [
+        {
+          configURL: IDP_ORIGIN,
+          clientId: CLIENT_ID,
+          nonce: nonce,
+          hint,
+        }
+      ],
+    },
   });
-};
 
+
+};
