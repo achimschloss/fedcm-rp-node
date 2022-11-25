@@ -3,8 +3,7 @@ import {
   render,
 } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
-const IDP_ORIGIN = "https://fedcm.digitalart.hamburg/fedcm.json";
-const IDP_B_ORIGIN = "https://idp-b-test.de:8000/fedcm.json";
+const IDP_ORIGIN = "https://idp-b-test.de/fedcm.json";
 //const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me/'
 const CLIENT_ID = "https://furtive-candy-cauliflower.glitch.me/";
 
