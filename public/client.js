@@ -3,7 +3,8 @@ import {
   render,
 } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
-const IDP_ORIGIN = "https://idp-b-test.de/fedcm.json";
+const IDP_ORIGIN_A = "https://idp-a-test.de/fedcm.json";
+const IDP_ORIGIN_B = "https://idp-b-test.de/fedcm.json";
 //const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me/'
 const CLIENT_ID = "https://furtive-candy-cauliflower.glitch.me/";
 
@@ -62,7 +63,7 @@ export const getCredential = async (hint) => {
     identity: {
       providers: [
         {
-          configURL: IDP_ORIGIN,
+          configURL: IDP_ORIGIN_A,
           clientId: CLIENT_ID,
           nonce: nonce,
           hint,
