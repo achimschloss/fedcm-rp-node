@@ -3,8 +3,8 @@ import {
   render,
 } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
-//const IDP_ORIGIN = "https://idp-b-test.de/fedcm.json";
-const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me/'
+const IDP_ORIGIN = "https://idp-b-test.de/";
+//const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me/'
 const CLIENT_ID = "https://furtive-candy-cauliflower.glitch.me/";
 
 export const $ = document.querySelector.bind(document);
