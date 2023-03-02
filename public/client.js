@@ -6,7 +6,8 @@ import {
 const IDP_ORIGIN_A = "https://idp-a-test.de/fedcm.json";
 const IDP_ORIGIN_B = "https://idp-b-test.de/fedcm.json";
 //const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me/'
-const CLIENT_ID = "https://furtive-candy-cauliflower.glitch.me/";
+const CLIENT_ID_A = "asdfasdfw23e4234qw";
+const CLIENT_ID_B = "234q2asdfasdfasdfa";
 
 export const $ = document.querySelector.bind(document);
 
@@ -64,7 +65,13 @@ export const getCredential = async (hint) => {
       providers: [
         {
           configURL: IDP_ORIGIN_A,
-          clientId: CLIENT_ID,
+          clientId: CLIENT_ID_A,
+          nonce: nonce,
+          hint,
+        },
+        {
+          configURL: IDP_ORIGIN_B,
+          clientId: CLIENT_ID_B,
           nonce: nonce,
           hint,
         }
