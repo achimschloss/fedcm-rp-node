@@ -68,13 +68,13 @@ export const getCredential = async (hint) => {
           clientId: CLIENT_ID_A,
           nonce: nonce,
           hint,
-        }/*,
+        },
         {
           configURL: IDP_ORIGIN_B,
           clientId: CLIENT_ID_B,
           nonce: nonce,
           hint,
-        }*/
+        }
       ],
     },
   });
