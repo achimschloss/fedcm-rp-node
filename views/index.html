@@ -109,9 +109,9 @@
       const signout = (account_id) => async () => {
         try {
           loading.start();
-          toast('You are signed out. Redirecting in 3.0 sec.');
+          toast("You are signed out. Redirecting in 3.0 sec.");
           setTimeout(() => {
-            location.href = '/signout';
+            location.href = "/signout";
           }, 3000);
         } catch (e) {
           loading.stop();
