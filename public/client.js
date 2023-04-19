@@ -63,11 +63,11 @@ export const getCredential = async (hint) => {
   return navigator.credentials.get({
     identity: {
       providers: [
-        {
+        /*{
           configURL: IDP_ORIGIN_A,
           clientId: CLIENT_ID_A,
           nonce: nonce
-        },
+        },*/
         {
           configURL: IDP_ORIGIN_B,
           clientId: CLIENT_ID_B,
