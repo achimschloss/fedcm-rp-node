@@ -73,7 +73,7 @@ export const getCredential = async (hint) => {
           clientId: CLIENT_ID_B,
           nonce: nonce,
           hint,
-        }*/
+        }
       ]
     }
   });
