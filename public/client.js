@@ -21,10 +21,8 @@ const providers = [
   }
 ];
 
-const scope = undefined
-     // ['email', 'profile'];
-const context = undefined
-      //'continue';
+const scope = ['email', 'profile'];
+const context = 'continue';
 
 
 export const $ = document.querySelector.bind(document);
@@ -79,7 +77,7 @@ export const loading = new Loading();
 export const getCredential = async () => {
   const nonce = $('meta[name="nonce"]').content;
   
-  const providersWithNonceAndScope = providers.map(provider => {
+  const providersWithNonce = providers.map(provider => {
     let newProvider = {
       ...provider,
       nonce: nonce,
@@ -94,7 +92,7 @@ export const getCredential = async () => {
   });
 
   let identity = {
-    providers: providersWithNonceAndScope
+    providers: providersWithNonce
   };
 
   // Only add the context if it's defined
