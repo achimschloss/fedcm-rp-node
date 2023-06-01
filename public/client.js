@@ -21,7 +21,8 @@ const providers = [
   }
 ];
 
-const scope = ['email', 'profile'];
+const scope =  // ['email', 'name', 'picture'];
+               ['permission_management']
 const context = 'continue';
 
 
