@@ -74,10 +74,11 @@ export const getCredential = async (hint) => {
           clientId: CLIENT_ID_B,
           nonce: nonce,
           scope: [
-                  'permission_management'
+                  'email'
           ]
         }
-      ]
+      ],
+      context: "continue"
     }
   });
 
