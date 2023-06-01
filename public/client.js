@@ -11,18 +11,20 @@ const CLIENT_ID_A = "asdfasdfw23e4234qw";
 const CLIENT_ID_B = "234q2asdfasdfasdfa";
 
 const providers = [
-  {
+  /*{
     configURL: IDP_ORIGIN_A,
     clientId: CLIENT_ID_A,
-  },
+  },*/
   {
     configURL: IDP_ORIGIN_B,
     clientId: CLIENT_ID_B,
   }
 ];
 
-const scope = ['email', 'profile'];
-const context = 'continue';
+const scope = undefined
+     // ['email', 'profile'];
+const context = undefined
+      //'continue';
 
 
 export const $ = document.querySelector.bind(document);
@@ -74,21 +76,41 @@ class Loading {
 
 export const loading = new Loading();
 
-export const getCredential = async (providers) => {
+export const getCredential = async () => {
   const nonce = $('meta[name="nonce"]').content;
   
-  // map over the providers array and create new objects that include the nonce
-  const providersWithNonce = providers.map(provider => ({
-    ...provider,
-    scope: scope,
-    nonce: nonce
-  }));
+  const providersWithNonceAndScope = providers.map(provider => {
+    let newProvider = {
+      ...provider,
+      nonce: nonce,
+    };
+    
+    // Only add the scope if it's defined
+    if (scope) {
+      newProvider.scope = scope;
+    }
+
+    return newProvider;
+  });
+
+  let identity = {
+    providers: providersWithNonceAndScope
+  };
+
+  // Only add the context if it's defined
+  if (context) {
+    identity.context = context;
+  }
 
   return navigator.credentials.get({
-    identity: {
-      providers: providersWithNonce,
-      context: context
-    }
+    identity: identity
   });
 };
+
+
+
+
+
+
+
 
