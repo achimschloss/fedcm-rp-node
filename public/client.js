@@ -24,7 +24,7 @@ const providers = [
 
 // Note these flags are only supported on Chrome Canary (ignored otherise by the Browser)
 const scope =   ['email', 'name', 'picture'];
-const context = 'continue';
+const context = 'use';
 
 
 export const $ = document.querySelector.bind(document);
