@@ -73,7 +73,9 @@ export const getCredential = async (hint) => {
           configURL: IDP_ORIGIN_B,
           clientId: CLIENT_ID_B,
           nonce: nonce,
-          scope: 'myTestScope'
+          scope: [
+                  'permission_management'
+          ]
         }
       ]
     }
