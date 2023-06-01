@@ -10,6 +10,21 @@ const IDP_ORIGIN_B = "https://idp-b-test.de/fedcm.json";
 const CLIENT_ID_A = "asdfasdfw23e4234qw";
 const CLIENT_ID_B = "234q2asdfasdfasdfa";
 
+const providers = [
+  {
+    configURL: IDP_ORIGIN_A,
+    clientId: CLIENT_ID_A,
+  },
+  {
+    configURL: IDP_ORIGIN_B,
+    clientId: CLIENT_ID_B,
+  }
+];
+
+const scope = ['email', 'profile'];
+const context = 'continue';
+
+
 export const $ = document.querySelector.bind(document);
 
 export const toast = (text) => {
@@ -59,28 +74,21 @@ class Loading {
 
 export const loading = new Loading();
 
-export const getCredential = async (hint) => {
+export const getCredential = async (providers) => {
   const nonce = $('meta[name="nonce"]').content;
+  
+  // map over the providers array and create new objects that include the nonce
+  const providersWithNonce = providers.map(provider => ({
+    ...provider,
+    scope: scope,
+    nonce: nonce
+  }));
+
   return navigator.credentials.get({
     identity: {
-      providers: [
-        /*{
-          configURL: IDP_ORIGIN_A,
-          clientId: CLIENT_ID_A,
-          nonce: nonce
-        },*/
-        {
-          configURL: IDP_ORIGIN_B,
-          clientId: CLIENT_ID_B,
-          nonce: nonce,
-          scope: [
-                  'email'
-          ]
-        }
-      ],
-      context: "continue"
+      providers: providersWithNonce,
+      context: context
     }
   });
-
-
 };
+
