@@ -94,7 +94,12 @@
         </div>
       </div>
       <div id="main-sections">
-        <div id="profile" class="center"></div>
+        <div id="profile" class="center">
+          <p id="signed-in-msg">You are signed in!</p>
+          <img id="user-picture" class="picture" width="40" src="{{picture}}" />
+          <p id="user-info">{{name}} ({{username}})</p>
+          <mwc-button id="sign-out-btn" raised @click="${() => signout('{{user_id}}')}">Sign-out</mwc-button>
+        </div>
       </div>
     </main>
     <script type="module">
@@ -106,7 +111,8 @@
         getCredential,
         handleConfigSave,
         switchTab,
-        updateConfigInputs
+        updateConfigInputs,
+        signout
       } from "./client.js";
       import {
         html,
@@ -119,44 +125,10 @@
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
       });
       $("#config-save").addEventListener("click", handleConfigSave);
-      
+
       // Call the updateConfigInputs function on page load to set the input field values
       window.addEventListener("load", updateConfigInputs);
 
-      const signout = (account_id) => async () => {
-        try {
-          loading.start();
-          toast("You are signed out. Redirecting in 3.0 sec.");
-          setTimeout(() => {
-            location.href = "/signout";
-          }, 3000);
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          toast(e.message);
-        }
-      };
-      const unregister = (username) => async () => {
-        try {
-          loading.start();
-          const credential = await getCredential();
-          await credential.revoke(username);
-          toast("Your account is revoked. Redirecting in 3.0 sec.");
-          setTimeout(() => {
-            location.href = "/signout";
-          }, 3000);
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          toast(e.message);
-        }
-      };
-
-      if ("IdentityCredential" in window) {
-        await signIn();
-      } else {
-        $("#unsupported").classList.remove("hidden");
-      }
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>

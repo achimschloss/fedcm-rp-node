@@ -150,3 +150,17 @@ export const switchTab = (tabId) => {
   // Show the selected tab
   $(`#${tabId}`).classList.remove("hidden");
 };
+
+export const signout = (account_id) => async () => {
+  try {
+    loading.start();
+    toast("You are signed out. Redirecting in 3.0 sec.");
+    setTimeout(() => {
+      location.href = "/signout";
+    }, 3000);
+  } catch (e) {
+    loading.stop();
+    console.error(e);
+    toast(e.message);
+  }
+};
