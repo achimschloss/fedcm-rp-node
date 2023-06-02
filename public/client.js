@@ -121,6 +121,27 @@ export const handleConfigSave = () => {
   switchTab("main-sections");
 };
 
+export const updateConfigInputs = () => {
+  // Retrieve the config from session storage
+  const config = JSON.parse(sessionStorage.getItem("config"));
+
+  // Set the input values based on the config
+  const scopeInput = $("#scope-input");
+  const contextInput = $("#context-input");
+
+  if (config && config.scope) {
+    scopeInput.value = config.scope.join(",");
+  } else {
+    scopeInput.value = "";
+  }
+
+  if (config && config.context) {
+    contextInput.value = config.context;
+  } else {
+    contextInput.value = "";
+  }
+};
+
 export const switchTab = (tabId) => {
   // Hide all tabs
   $("#main-sections").classList.add("hidden");

@@ -110,12 +110,20 @@
       </div>
     </main>
     <script type="module">
-      import { $, toast, loading, _fetch, getCredential, handleConfigSave, switchTab } from "./client.js";
+      import {
+        $,
+        toast,
+        loading,
+        _fetch,
+        getCredential,
+        handleConfigSave,
+        switchTab,
+        updateConfigInputs
+      } from "./client.js";
       import {
         html,
         render,
       } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
-
 
       $("#home").addEventListener("click", () => switchTab("main-sections"));
       $("#settings").addEventListener("click", () => switchTab("settings-tab"));
@@ -123,7 +131,9 @@
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
       });
       $("#config-save").addEventListener("click", handleConfigSave);
-
+      
+      // Call the updateConfigInputs function on page load to set the input field values
+      window.addEventListener("load", updateConfigInputs);
 
       const signIn = async () => {
         try {
