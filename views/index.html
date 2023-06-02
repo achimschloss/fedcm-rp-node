@@ -46,6 +46,16 @@
     <mwc-top-app-bar-fixed>
       <span slot="title">FedCM RP Demo</span>
       <mwc-icon-button
+        id="home"
+        icon="home"
+        slot="actionItems"
+      ></mwc-icon-button>
+      <mwc-icon-button
+        id="settings"
+        icon="settings"
+        slot="actionItems"
+      ></mwc-icon-button>
+      <mwc-icon-button
         id="code"
         icon="code"
         slot="actionItems"
@@ -58,11 +68,17 @@
         Your browser does not support FedCM. Try on Chrome for Android with a
         flag chrome://flags/#fedcm.
       </p>
+      <div id="settings-tab" class="center hidden">
+        <h3>Settings</h3>
+        <!-- Add settings control here -->
+      </div>
       <div id="profile" class="center"></div>
       <div id="login" class="center">
         <p class="instructions">
           If you don't see a sign-in dialog, you need to sign-in on the IDP
-          first. The IDP might also need to "wake-up" again given its a testing setup its not always running. Visiting the IDP will help in this case too
+          first. The IDP might also need to "wake-up" again given its a testing
+          setup its not always running. Visiting the IDP will help in this case
+          too
         </p>
         <!-- Add a button to link to the sign-in page -->
         <a href="https://dry-lake-09460.herokuapp.com/">
@@ -77,6 +93,18 @@
         render,
       } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
+      function switchTab(tabId) {
+        // Hide all tabs
+        $("#profile").classList.add("hidden");
+        $("#login").classList.add("hidden");
+        $("#settings-tab").classList.add("hidden");
+
+        // Show the selected tab
+        $(`#${tabId}`).classList.remove("hidden");
+      }
+
+      $("#home").addEventListener("click", () => switchTab("profile"));
+      $("#settings").addEventListener("click", () => switchTab("settings-tab"));
       $("#code").addEventListener("click", (e) => {
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
       });
