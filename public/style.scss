@@ -80,22 +80,25 @@ iframe {
     align-items: center;
     width: 100%;
 
-    .config-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 10px 0;
+.config-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  width: 100%;  // Make sure the container takes the full width
+  
+  label {
+    width: 30%;  // Adjust as necessary
+    text-align: right; // Right-align the label text
+    padding-right: 10px; // Add some padding to separate from the input fields
+  }
 
-      label {
-        font-weight: bold;
-        margin-right: 10px;
-      }
-
-      input[type="text"], select {
-        flex-grow: 1;
-        margin-right: 10px;
-      }
-    }
+  input,
+  select {
+    width: 70%;  // The input field will take up the rest of the space
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+  }
+}
   }
 }
