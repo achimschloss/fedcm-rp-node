@@ -72,18 +72,20 @@
         <h3>Settings</h3>
         <!-- Add settings control here -->
       </div>
-      <div id="profile" class="center"></div>
-      <div id="login" class="center">
-        <p class="instructions">
-          If you don't see a sign-in dialog, you need to sign-in on the IDP
-          first. The IDP might also need to "wake-up" again given its a testing
-          setup its not always running. Visiting the IDP will help in this case
-          too
-        </p>
-        <!-- Add a button to link to the sign-in page -->
-        <a href="https://dry-lake-09460.herokuapp.com/">
-          <mwc-button raised>Visit IDP</mwc-button>
-        </a>
+      <div id="main-sections">
+        <div id="profile" class="center"></div>
+        <div id="login" class="center">
+          <p class="instructions">
+            If you don't see a sign-in dialog, you need to sign-in on the IDP
+            first. The IDP might also need to "wake-up" again given its a
+            testing setup its not always running. Visiting the IDP will help in
+            this case too
+          </p>
+          <!-- Add a button to link to the sign-in page -->
+          <a href="https://dry-lake-09460.herokuapp.com/">
+            <mwc-button raised>Visit IDP</mwc-button>
+          </a>
+        </div>
       </div>
     </main>
     <script type="module">
@@ -95,20 +97,14 @@
 
       function switchTab(tabId) {
         // Hide all tabs
-        $("#profile").classList.add("hidden");
-        $("#login").classList.add("hidden");
+        $("#main-sections").classList.add("hidden");
         $("#settings-tab").classList.add("hidden");
 
         // Show the selected tab
-        if (tabId === "home") {
-          $("#profile").classList.remove("hidden");
-          $("#login").classList.remove("hidden");
-        } else {
-          $(`#${tabId}`).classList.remove("hidden");
-        }
+        $(`#${tabId}`).classList.remove("hidden");
       }
 
-      $("#home").addEventListener("click", () => switchTab("profile"));
+      $("#home").addEventListener("click", () => switchTab("main-sections"));
       $("#settings").addEventListener("click", () => switchTab("settings-tab"));
       $("#code").addEventListener("click", (e) => {
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
