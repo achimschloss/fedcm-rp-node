@@ -50,45 +50,22 @@
           toast,
           loading,
           _fetch,
-          getCredential,
-          handleConfigSave,
-          switchTab,
-          updateConfigInputs,
           signout,
         } from "./client.js";
         import {
           html,
           render,
         } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
-
-        $("#home").addEventListener("click", () => switchTab("main-sections"));
-        $("#settings").addEventListener("click", () =>
-          switchTab("settings-tab")
-        );
         $("#code").addEventListener("click", (e) => {
           location.href =
             "https://glitch.com/edit/#!/furtive-candy-cauliflower";
         });
-        $("#config-save").addEventListener("click", handleConfigSave);
         $("#sign-out-btn").addEventListener("click", signout("{{user_id}}"));
-
-        // Call the updateConfigInputs function on page load to set the input field values
-        window.addEventListener("load", updateConfigInputs);
       </script>
     </body>
 
     <mwc-top-app-bar-fixed>
       <span slot="title">FedCM RP Demo</span>
-      <mwc-icon-button
-        id="home"
-        icon="home"
-        slot="actionItems"
-      ></mwc-icon-button>
-      <mwc-icon-button
-        id="settings"
-        icon="settings"
-        slot="actionItems"
-      ></mwc-icon-button>
       <mwc-icon-button
         id="code"
         icon="code"
@@ -102,31 +79,6 @@
         Your browser does not support FedCM. Try on Chrome for Android with a
         flag chrome://flags/#fedcm.
       </p>
-      <div id="settings-tab" class="center hidden">
-        <h3>Settings</h3>
-        <!-- Your existing settings UI goes here -->
-        <div class="config-container">
-          <div class="config-item">
-            <label for="scope-input">Scope:</label>
-            <input
-              id="scope-input"
-              class="mdc-text-field__input"
-              type="text"
-              placeholder="email,name,picture"
-            />
-          </div>
-          <div class="config-item">
-            <label for="context-input">Context:</label>
-            <input
-              id="context-input"
-              class="mdc-text-field__input"
-              type="text"
-              placeholder="use"
-            />
-          </div>
-          <mwc-button id="config-save" raised>Save</mwc-button>
-        </div>
-      </div>
       <div id="main-sections">
         <div id="profile" class="center">
           <p id="signed-in-msg">You are signed in!</p>

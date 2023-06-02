@@ -118,7 +118,7 @@
         getCredential,
         handleConfigSave,
         switchTab,
-        updateConfigInputs
+        updateConfigInputs,
       } from "./client.js";
       import {
         html,
@@ -131,7 +131,7 @@
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
       });
       $("#config-save").addEventListener("click", handleConfigSave);
-      
+
       // Call the updateConfigInputs function on page load to set the input field values
       window.addEventListener("load", updateConfigInputs);
 
@@ -143,6 +143,8 @@
             const token = credential.token; //await credential.login({ nonce });
             console.log(token);
             await _fetch("/verify", { token });
+            // Reload the page in case no error occurs (i.e. user was signed in successfully)
+            location.reload();
           } catch (e) {
             console.error(e);
             toast(e.message);
@@ -152,6 +154,7 @@
           toast(e.message);
         }
       };
+
       const signout = (account_id) => async () => {
         try {
           loading.start();
@@ -165,6 +168,7 @@
           toast(e.message);
         }
       };
+      
       const unregister = (username) => async () => {
         try {
           loading.start();
