@@ -100,7 +100,12 @@
         $("#settings-tab").classList.add("hidden");
 
         // Show the selected tab
-        $(`#${tabId}`).classList.remove("hidden");
+        if (tabId === "home") {
+          $("#profile").classList.remove("hidden");
+          $("#login").classList.remove("hidden");
+        } else {
+          $(`#${tabId}`).classList.remove("hidden");
+        }
       }
 
       $("#home").addEventListener("click", () => switchTab("profile"));
