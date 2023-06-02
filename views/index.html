@@ -90,7 +90,7 @@
               placeholder="use"
             />
           </div>
-          <mwc-button id="config-save" raised @click="${handleConfigSave}">Save</mwc-button>
+          <mwc-button id="config-save" raised>Save</mwc-button>
         </div>
       </div>
       <div id="main-sections">
@@ -122,6 +122,7 @@
       $("#code").addEventListener("click", (e) => {
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
       });
+      $("#config-save").addEventListener("click", handleConfigSave);
 
 
       const signIn = async () => {

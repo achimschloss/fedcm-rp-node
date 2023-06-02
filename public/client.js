@@ -26,7 +26,7 @@ const providers = [
 const scope = ["email", "name", "picture"];
 const context = "use";
 
-export const config = undefined;
+export let config = undefined;
 
 export const $ = document.querySelector.bind(document);
 
@@ -87,7 +87,7 @@ export const getCredential = async () => {
     };
 
     // Only add the scope if it's defined
-    if (scope) {
+    if (config && config.scope) {
       newProvider.scope = scope;
     }
 
@@ -98,9 +98,9 @@ export const getCredential = async () => {
     providers: providersWithNonce,
   };
 
-  // Only add the context if it's defined
-  if (context) {
-    identity.context = context;
+  // Only add the context if it's defined in the config
+  if (config && config.context) {
+    identity.context = config.context;
   }
 
   return navigator.credentials.get({
