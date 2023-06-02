@@ -72,27 +72,30 @@ iframe {
   height: 300px;
 }
 
-.settings {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-
-  .settings-option {
+.center {
+  
+  .config-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
-    padding: 10px 0;
 
-    label {
-      font-weight: bold;
-      margin-right: 10px;
-    }
+    .config-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 0;
 
-    input[type="text"] {
-      flex-grow: 1;
-      margin-right: 10px;
+      label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      input[type="text"], select {
+        flex-grow: 1;
+        margin-right: 10px;
+      }
     }
   }
 }

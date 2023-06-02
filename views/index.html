@@ -71,11 +71,9 @@
       <div id="settings-tab" class="center hidden">
         <h3>Settings</h3>
         <!-- Your existing settings UI goes here -->
-        <!-- Add the new configuration UI here -->
-        <h3>Configuration</h3>
         <div class="config-container">
           <div class="config-item">
-            <label for="scope-input">Scope (comma-separated):</label>
+            <label for="scope-input">Scope:</label>
             <input
               id="scope-input"
               class="mdc-text-field__input"
@@ -85,10 +83,13 @@
           </div>
           <div class="config-item">
             <label for="context-input">Context:</label>
-            <select id="context-input" class="mdc-select__native-control">
-              <option value="use">use</option>
-              <!-- add any other options for context here -->
-            </select>
+            <label for="context-input">Context:</label>
+            <input
+              id="context-input"
+              class="mdc-text-field__input"
+              type="text"
+              placeholder="use"
+            />
           </div>
           <mwc-button id="config-save" raised>Save</mwc-button>
         </div>
