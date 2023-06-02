@@ -19,13 +19,14 @@ const providers = [
   {
     configURL: IDP_ORIGIN_B,
     clientId: CLIENT_ID_B,
-  }
+  },
 ];
 
 // Note these flags are only supported on Chrome Canary (ignored otherise by the Browser)
-const scope =   ['email', 'name', 'picture'];
-const context = 'use';
+const scope = ["email", "name", "picture"];
+const context = "use";
 
+export const config = undefined;
 
 export const $ = document.querySelector.bind(document);
 
@@ -78,13 +79,13 @@ export const loading = new Loading();
 
 export const getCredential = async () => {
   const nonce = $('meta[name="nonce"]').content;
-  
-  const providersWithNonce = providers.map(provider => {
+
+  const providersWithNonce = providers.map((provider) => {
     let newProvider = {
       ...provider,
       nonce: nonce,
     };
-    
+
     // Only add the scope if it's defined
     if (scope) {
       newProvider.scope = scope;
@@ -94,7 +95,7 @@ export const getCredential = async () => {
   });
 
   let identity = {
-    providers: providersWithNonce
+    providers: providersWithNonce,
   };
 
   // Only add the context if it's defined
@@ -103,14 +104,29 @@ export const getCredential = async () => {
   }
 
   return navigator.credentials.get({
-    identity: identity
+    identity: identity,
   });
 };
 
+export const handleConfigSave = () => {
+  const scopeInput = $("#scope-input").value.split(",");
+  const contextInput = $("#context-input").value;
 
+  // set config
+  config =
+    scopeInput.length > 0 || contextInput.length > 0
+      ? { scope: scopeInput, context: contextInput }
+      : undefined;
 
+  // Go back to the main section after saving
+  switchTab("main-sections");
+};
 
+export const switchTab = (tabId) => {
+  // Hide all tabs
+  $("#main-sections").classList.add("hidden");
+  $("#settings-tab").classList.add("hidden");
 
-
-
-
+  // Show the selected tab
+  $(`#${tabId}`).classList.remove("hidden");
+};
