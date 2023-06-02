@@ -116,6 +116,8 @@
         render,
       } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
+      let config = undefined;
+      
       function switchTab(tabId) {
         // Hide all tabs
         $("#main-sections").classList.add("hidden");
@@ -129,6 +131,20 @@
       $("#settings").addEventListener("click", () => switchTab("settings-tab"));
       $("#code").addEventListener("click", (e) => {
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
+      });
+
+      $("#config-save").addEventListener("click", () => {
+        const scopeInput = $("#scope-input").value.split(",");
+        const contextInput = $("#context-input").value;
+
+        // Create config object if any option is set, otherwise keep it as undefined
+        config =
+          scopeInput.length > 0 || contextInput.length > 0
+            ? { scope: scopeInput, context: contextInput }
+            : undefined;
+
+        // Go back to the main section after saving
+        switchTab("main-sections");
       });
 
       const signIn = async () => {
