@@ -74,7 +74,7 @@ app.post('/verify', csrfCheck, (req, res) => {
     req.session.username = user.username;
     req.session.name = user.name;
     req.session.picture = user.picture;
-    res.status(200).json(user);
+    res.status(200).json({ success: 'ID token valid'});
   } catch (e) {
     console.error(e.message);
     res.status(401).json({ error: 'ID token verification failed.'});
@@ -101,8 +101,16 @@ app.get('/', (req, res) => {
   // TODO: Shouldn't I timeout this?
   req.session.nonce = nonce;
   const ot_token = process.env.OT_TOKEN;
-  res.render('index.html', { nonce, ot_token });
+
+  if (req.session.user_id) {
+    // Redirect to '/home' if 'req.session.user' exists
+    res.redirect('/home');
+  } else {
+    // Render the default index.html if 'req.session.user' doesn't exist
+    res.render('index.html', { nonce, ot_token });
+  }
 });
+
 
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;
 const listener = app.listen(port || process.env.PORT, () => {

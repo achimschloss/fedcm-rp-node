@@ -142,7 +142,7 @@
             const nonce = $('meta[name="nonce"]').content;
             const token = credential.token; //await credential.login({ nonce });
             console.log(token);
-            const user = await _fetch("/verify", { token });
+            await _fetch("/verify", { token });
           } catch (e) {
             console.error(e);
             toast(e.message);
