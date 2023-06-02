@@ -22,12 +22,6 @@ const providers = [
   },
 ];
 
-// Note these flags are only supported on Chrome Canary (ignored otherise by the Browser)
-const scope = ["email", "name", "picture"];
-const context = "use";
-
-export let config = undefined;
-
 export const $ = document.querySelector.bind(document);
 
 export const toast = (text) => {
@@ -79,6 +73,8 @@ export const loading = new Loading();
 
 export const getCredential = async () => {
   const nonce = $('meta[name="nonce"]').content;
+  // Retrieve the config from session storage
+  const config = JSON.parse(sessionStorage.getItem("config"));
 
   const providersWithNonce = providers.map((provider) => {
     let newProvider = {
@@ -88,7 +84,7 @@ export const getCredential = async () => {
 
     // Only add the scope if it's defined
     if (config && config.scope) {
-      newProvider.scope = scope;
+      newProvider.scope = config.scope;
     }
 
     return newProvider;
@@ -113,10 +109,13 @@ export const handleConfigSave = () => {
   const contextInput = $("#context-input").value;
 
   // set config
-  config =
+  const config =
     scopeInput.length > 0 || contextInput.length > 0
       ? { scope: scopeInput, context: contextInput }
       : undefined;
+
+  // Save the config in session storage
+  sessionStorage.setItem("config", JSON.stringify(config));
 
   // Go back to the main section after saving
   switchTab("main-sections");
