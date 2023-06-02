@@ -143,18 +143,6 @@
             const token = credential.token; //await credential.login({ nonce });
             console.log(token);
             const user = await _fetch("/verify", { token });
-            render(
-              html`
-                <p>You are signed in!</p>
-                <img src="${user.picture}" class="picture" width="40" />
-                <p>${user.name} (${user.username})</p>
-                <mwc-button @click="${signout(user.user_id)}" raised
-                  >Sign-out</mwc-button
-                >
-              `,
-              $("#profile")
-            );
-            $("#login").classList.add("hidden");
           } catch (e) {
             console.error(e);
             toast(e.message);

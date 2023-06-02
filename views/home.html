@@ -43,6 +43,40 @@
     <meta http-equiv="origin-trial" content="{{ot_token}}" />
   </head>
   <body class="mdc-typography">
+    <body class="mdc-typography">
+      <script type="module">
+        import {
+          $,
+          toast,
+          loading,
+          _fetch,
+          getCredential,
+          handleConfigSave,
+          switchTab,
+          updateConfigInputs,
+          signout,
+        } from "./client.js";
+        import {
+          html,
+          render,
+        } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
+
+        $("#home").addEventListener("click", () => switchTab("main-sections"));
+        $("#settings").addEventListener("click", () =>
+          switchTab("settings-tab")
+        );
+        $("#code").addEventListener("click", (e) => {
+          location.href =
+            "https://glitch.com/edit/#!/furtive-candy-cauliflower";
+        });
+        $("#config-save").addEventListener("click", handleConfigSave);
+        $("#sign-out-btn").addEventListener("click", signout("{{user_id}}"));
+
+        // Call the updateConfigInputs function on page load to set the input field values
+        window.addEventListener("load", updateConfigInputs);
+      </script>
+    </body>
+
     <mwc-top-app-bar-fixed>
       <span slot="title">FedCM RP Demo</span>
       <mwc-icon-button
@@ -98,39 +132,10 @@
           <p id="signed-in-msg">You are signed in!</p>
           <img id="user-picture" class="picture" width="40" src="{{picture}}" />
           <p id="user-info">{{name}} ({{username}})</p>
-          <mwc-button id="sign-out-btn" raised onclick="signout('{{user_id}}')">
-            Sign-out
-          </mwc-button>
+          <mwc-button id="sign-out-btn" raised> Sign-out </mwc-button>
         </div>
       </div>
     </main>
-    <script type="module">
-      import {
-        $,
-        toast,
-        loading,
-        _fetch,
-        getCredential,
-        handleConfigSave,
-        switchTab,
-        updateConfigInputs,
-        signout,
-      } from "./client.js";
-      import {
-        html,
-        render,
-      } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
-
-      $("#home").addEventListener("click", () => switchTab("main-sections"));
-      $("#settings").addEventListener("click", () => switchTab("settings-tab"));
-      $("#code").addEventListener("click", (e) => {
-        location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
-      });
-      $("#config-save").addEventListener("click", handleConfigSave);
-
-      // Call the updateConfigInputs function on page load to set the input field values
-      window.addEventListener("load", updateConfigInputs);
-    </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>
 </html>
