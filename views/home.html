@@ -98,7 +98,9 @@
           <p id="signed-in-msg">You are signed in!</p>
           <img id="user-picture" class="picture" width="40" src="{{picture}}" />
           <p id="user-info">{{name}} ({{username}})</p>
-          <mwc-button id="sign-out-btn" raised @click="${() => signout('{{user_id}}')}">Sign-out</mwc-button>
+          <mwc-button id="sign-out-btn" raised onclick="signout('{{user_id}}')">
+            Sign-out
+          </mwc-button>
         </div>
       </div>
     </main>
@@ -112,7 +114,7 @@
         handleConfigSave,
         switchTab,
         updateConfigInputs,
-        signout
+        signout,
       } from "./client.js";
       import {
         html,
@@ -128,7 +130,6 @@
 
       // Call the updateConfigInputs function on page load to set the input field values
       window.addEventListener("load", updateConfigInputs);
-
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>
