@@ -89,11 +89,13 @@ app.get('/signout', (req, res) => {
 
 app.get('/home', sessionCheck, (req, res) => {
   const user = res.locals.user;
+  const config = req.session.config || {};
   res.render('home.html', {
     user_id: user.user_id,
     username: user.username,
     name: user.name,
-    picture: user.picture
+    picture: user.picture,
+    config
   });
 });
 
@@ -113,6 +115,22 @@ app.get('/', (req, res) => {
     res.render('index.html', { nonce, ot_token, config });
   }
 });
+
+app.post("/config-save", (req, res) => {
+  const { scopeInput, contextInput } = req.body;
+
+  // Set config
+  const config =
+    scopeInput.length > 0 || contextInput.length > 0
+      ? { scope: scopeInput, context: contextInput }
+      : undefined;
+
+  // Save the config in the server-side session
+  req.session.config = config;
+
+  res.sendStatus(200); // Send a success response
+});
+
 
 
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;

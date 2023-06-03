@@ -117,8 +117,7 @@
         _fetch,
         getCredential,
         handleConfigSave,
-        switchTab,
-        updateConfigInputs,
+        switchTab
       } from "./client.js";
       import {
         html,
@@ -131,9 +130,6 @@
         location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
       });
       $("#config-save").addEventListener("click", handleConfigSave);
-
-      // Call the updateConfigInputs function on page load to set the input field values
-      window.addEventListener("load", updateConfigInputs);
 
       const signIn = async () => {
         try {

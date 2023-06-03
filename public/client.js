@@ -104,42 +104,28 @@ export const getCredential = async () => {
   });
 };
 
-export const handleConfigSave = () => {
+export const handleConfigSave = async () => {
   const scopeInput = $("#scope-input").value.split(",");
   const contextInput = $("#context-input").value;
 
-  // set config
-  const config =
-    scopeInput.length > 0 || contextInput.length > 0
-      ? { scope: scopeInput, context: contextInput }
-      : undefined;
+  const response = await fetch("/config-save", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ scopeInput, contextInput }),
+  });
 
-  // Save the config in session storage
-  sessionStorage.setItem("config", JSON.stringify(config));
+  if (response.ok) {
+    // Configuration saved successfully, handle any necessary actions
+    switchTab("main-sections");
+  } else {
+    // Handle any error cases
+    console.error("Failed to save configuration");
+  }
 
   // Go back to the main section after saving
   switchTab("main-sections");
-};
-
-export const updateConfigInputs = () => {
-  // Retrieve the config from session storage
-  const config = JSON.parse(sessionStorage.getItem("config"));
-
-  // Set the input values based on the config
-  const scopeInput = $("#scope-input");
-  const contextInput = $("#context-input");
-
-  if (config && config.scope) {
-    scopeInput.value = config.scope.join(",");
-  } else {
-    scopeInput.value = "";
-  }
-
-  if (config && config.context) {
-    contextInput.value = config.context;
-  } else {
-    contextInput.value = "";
-  }
 };
 
 export const switchTab = (tabId) => {
