@@ -69,38 +69,16 @@
         flag chrome://flags/#fedcm.
       </p>
       <div id="settings-tab" class="center hidden">
-        <h3>Settings</h3>
-        <!-- Your existing settings UI goes here -->
-        <div class="config-container">
-          <div class="config-item">
-            <label for="scope-input">Scope:</label>
-            <input
-              id="scope-input"
-              class="mdc-text-field__input"
-              type="text"
-              placeholder="email,name,picture"
-              value="{{config.scope}}"
-            />
+          <h3>Settings</h3>
+          <div class="config-container">
+              <mwc-textfield label="Scope:" id="scope-input" placeholder="email,name,picture" value="{{config.scope}}"></mwc-textfield>
+              <mwc-textfield label="Context:" id="context-input" placeholder="use" value="{{config.context}}"></mwc-textfield>
+              <mwc-select label="Mode:" id="mode-input">
+                  <mwc-list-item value="pageload" selected={{#if (eq config.mode 'pageload')}}true{{else}}false{{/if}}>PageLoad</mwc-list-item>
+                  <mwc-list-item value="onclick" selected={{#if (eq config.mode 'onclick')}}true{{else}}false{{/if}}>On-Click</mwc-list-item>
+              </mwc-select>
+              <mwc-button id="config-save" raised>Save</mwc-button>
           </div>
-          <div class="config-item">
-            <label for="context-input">Context:</label>
-            <input
-              id="context-input"
-              class="mdc-text-field__input"
-              type="text"
-              placeholder="use"
-              value="{{config.context}}"
-            />
-          </div>
-        <div class="config-item">
-            <label for="mode-input">Mode:</label>
-            <select id="mode-input" class="mdc-text-field__input">
-                <option value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>PageLoad</option>
-                <option value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</option>
-            </select>
-        </div>
-          <mwc-button id="config-save" raised>Save</mwc-button>
-        </div>
       </div>
       <div id="main-sections">
         <div id="profile" class="center"></div>
