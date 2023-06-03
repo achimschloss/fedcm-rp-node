@@ -139,14 +139,25 @@
               location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
             });
             $("#config-save").addEventListener("click", handleConfigSave);
-      
+
             let config;
 
-            (async function() {
-                const configResponse = await fetch('/config');
-                config = await configResponse.json();
-            })();
+            async function initialize() {
+              const configResponse = await fetch('/config');
+              config = await configResponse.json();
 
+              if ("IdentityCredential" in window) {
+                if (config && config.mode === 'pageload') {
+                  signIn();
+                }
+              } else {
+                $("#unsupported").classList.remove("hidden");
+              }
+              // Other setup tasks go here...
+            }
+      
+            initialize().catch(err => console.error(err));
+            
             const signIn = async () => {
               try {
                 try {
@@ -197,11 +208,6 @@
               }
             };
 
-            if ("IdentityCredential" in window) {
-              await signIn();
-            } else {
-              $("#unsupported").classList.remove("hidden");
-            }
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>
