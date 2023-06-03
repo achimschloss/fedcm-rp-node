@@ -23,6 +23,11 @@ const jwt = require('jsonwebtoken');
 const { csrfCheck, sessionCheck, getUser } = require('./libs/common');
 const app = express();
 
+// register the helper function
+hbs.registerHelper('eq', function(a, b) {
+    return a === b;
+});
+
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
 app.set('views', './views');
@@ -117,12 +122,12 @@ app.get('/', (req, res) => {
 });
 
 app.post("/config-save", (req, res) => {
-  const { scopeInput, contextInput } = req.body;
+  const { scopeInput, contextInput, modeInput } = req.body;
 
-  // Set config
-  const config =
-    scopeInput.length > 0 || contextInput.length > 0
-      ? { scope: scopeInput, context: contextInput }
+// Set config
+const config =
+    scopeInput.length > 0 || contextInput.length > 0 || modeInput
+      ? { scope: scopeInput, context: contextInput, mode: modeInput }
       : undefined;
 
   // Save the config in the server-side session

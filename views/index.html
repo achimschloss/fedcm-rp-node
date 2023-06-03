@@ -92,7 +92,13 @@
               value="{{config.context}}"
             />
           </div>
-
+        <div class="config-item">
+            <label for="mode-input">Mode:</label>
+            <select id="mode-input" class="mdc-text-field__input">
+                <option value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>Page Load</option>
+                <option value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On Click</option>
+            </select>
+        </div>
           <mwc-button id="config-save" raised>Save</mwc-button>
         </div>
       </div>
@@ -133,11 +139,18 @@
               location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
             });
             $("#config-save").addEventListener("click", handleConfigSave);
+      
+            let config;
+
+            (async function() {
+                const configResponse = await fetch('/config');
+                config = await configResponse.json();
+            })();
 
             const signIn = async () => {
               try {
                 try {
-                  const credential = await getCredential();
+                  const credential = await getCredential(config);
                   const nonce = $('meta[name="nonce"]').content;
                   const token = credential.token; //await credential.login({ nonce });
                   console.log(token);

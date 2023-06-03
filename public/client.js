@@ -71,7 +71,7 @@ class Loading {
 
 export const loading = new Loading();
 
-export const getCredential = async () => {
+export const getCredential = async (config) => {
   const nonce = $('meta[name="nonce"]').content;
   
     // Fetch the config from the server
@@ -109,13 +109,14 @@ export const getCredential = async () => {
 export const handleConfigSave = async () => {
   const scopeInput = $("#scope-input").value.split(",");
   const contextInput = $("#context-input").value;
+  const modeInput = $("#mode-input").value; // Get the value of the mode input field
 
   const response = await fetch("/config-save", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ scopeInput, contextInput }),
+    body: JSON.stringify({ scopeInput, contextInput, modeInput }), // Include modeInput in the object
   });
 
   if (response.ok) {
@@ -129,6 +130,7 @@ export const handleConfigSave = async () => {
   // Go back to the main section after saving
   switchTab("main-sections");
 };
+
 
 export const switchTab = (tabId) => {
   // Hide all tabs
