@@ -117,16 +117,12 @@ export const handleConfigSave = async () => {
 
   if (response.ok) {
     // Configuration saved successfully, handle any necessary actions
-    location.reload()
+    location.reload();
   } else {
     // Handle any error cases
     console.error("Failed to save configuration");
   }
-
-  // Go back to the main section after saving
-  switchTab("main-sections");
 };
-
 
 export const switchTab = (tabId) => {
   // Hide all tabs

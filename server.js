@@ -163,13 +163,10 @@ app.post("/config-save", (req, res) => {
 });
 
 app.get("/config", (req, res) => {
-  // Check if there's a user session and a config
-  if (!req.session || !req.session.config) {
-    return res.json({}); // Return an empty JSON object
-  }
 
   // Send the config data
   return res.json(req.session.config);
+
 });
 
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;
