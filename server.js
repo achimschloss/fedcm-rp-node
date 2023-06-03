@@ -16,36 +16,38 @@
  */
 
 // init project
-const express = require('express');
-const session = require('express-session');
-const hbs = require('hbs');
-const jwt = require('jsonwebtoken');
-const { csrfCheck, sessionCheck, getUser } = require('./libs/common');
+const express = require("express");
+const session = require("express-session");
+const hbs = require("hbs");
+const jwt = require("jsonwebtoken");
+const { csrfCheck, sessionCheck, getUser } = require("./libs/common");
 const app = express();
 
 // register the helper function
-hbs.registerHelper('eq', function(a, b) {
-    return a === b;
+hbs.registerHelper("eq", function (a, b) {
+  return a === b;
 });
 
-app.set('view engine', 'html');
-app.engine('html', hbs.__express);
-app.set('views', './views');
+app.set("view engine", "html");
+app.engine("html", hbs.__express);
+app.set("views", "./views");
 app.use(express.json());
-app.use(express.static('public'));
-app.use(express.static('dist'));
-app.use(session({
-  secret: 'secret', // You should specify a real secret here
-  resave: true,
-  saveUninitialized: false,
-  proxy: true,
-  cookie:{
-    httpOnly: true,
-    secure: true
-  }
-}));
+app.use(express.static("public"));
+app.use(express.static("dist"));
+app.use(
+  session({
+    secret: "secret", // You should specify a real secret here
+    resave: true,
+    saveUninitialized: false,
+    proxy: true,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+    },
+  })
+);
 
-const CLIENT_ID = 'https://furtive-candy-cauliflower.glitch.me/';
+const CLIENT_ID = "https://furtive-candy-cauliflower.glitch.me/";
 
 app.use((req, res, next) => {
   if (process.env.PROJECT_DOMAIN) {
@@ -53,59 +55,72 @@ app.use((req, res, next) => {
   } else {
     process.env.HOSTNAME = req.headers.host;
   }
-  const protocol = /^localhost/.test(process.env.HOSTNAME) ? 'http' : 'https';
+  const protocol = /^localhost/.test(process.env.HOSTNAME) ? "http" : "https";
   process.env.ORIGIN = `${protocol}://${process.env.HOSTNAME}`;
   if (
-    req.get('x-forwarded-proto') &&
-    req.get('x-forwarded-proto').split(',')[0] !== 'https'
+    req.get("x-forwarded-proto") &&
+    req.get("x-forwarded-proto").split(",")[0] !== "https"
   ) {
     return res.redirect(301, process.env.ORIGIN);
   }
-  req.schema = 'https';
+  req.schema = "https";
   next();
 });
 
-app.post('/verify', csrfCheck, (req, res) => {
+app.post("/verify", csrfCheck, (req, res) => {
   try {
     const nonce = req.session.nonce.toString();
 
     // TODO: Check if there's any other criteria is missing
     console.log(req.body.token);
     const token = jwt.verify(req.body.token, "xxxxxxx");
-    
+
     const user = getUser(token.sub, token.email, token.name, token.picture);
 
     req.session.user_id = user.user_id;
     req.session.username = user.username;
     req.session.name = user.name;
     req.session.picture = user.picture;
-    res.status(200).json({ success: 'ID token valid'});
-    
+    res.status(200).json({ success: "ID token valid" });
   } catch (e) {
     console.error(e.message);
-    res.status(401).json({ error: 'ID token verification failed.'});
+    res.status(401).json({ error: "ID token verification failed." });
   }
 });
 
-app.get('/signout', (req, res) => {
-  req.session.destroy();
-  res.redirect(307, '/');
+app.get("/signout", (req, res) => {
+  // Save settings in temporary variable
+  const settings = req.session.config;
+
+  // Regenerate the session
+  req.session.regenerate((err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Failed to regenerate session");
+    } else {
+      // Copy settings to the new session
+      req.session.config = settings;
+
+      // Redirect to the home page
+      res.redirect(307, "/");
+    }
+  });
 });
 
-app.get('/home', sessionCheck, (req, res) => {
+app.get("/home", sessionCheck, (req, res) => {
   const user = res.locals.user;
   const config = req.session.config || {};
-  res.render('home.html', {
+  res.render("home.html", {
     user_id: user.user_id,
     username: user.username,
     name: user.name,
     picture: user.picture,
-    config
+    config,
   });
 });
 
-app.get('/', (req, res) => {
-  const nonce = Math.floor(Math.random()*10e10);
+app.get("/", (req, res) => {
+  const nonce = Math.floor(Math.random() * 10e10);
   // TODO: Shouldn't I timeout this?
   req.session.nonce = nonce;
   const ot_token = process.env.OT_TOKEN;
@@ -114,18 +129,18 @@ app.get('/', (req, res) => {
 
   if (req.session.user_id) {
     // Redirect to '/home' if 'req.session.user' exists
-    res.redirect('/home');
+    res.redirect("/home");
   } else {
     // Render the default index.html if 'req.session.user' doesn't exist
-    res.render('index.html', { nonce, ot_token, config });
+    res.render("index.html", { nonce, ot_token, config });
   }
 });
 
 app.post("/config-save", (req, res) => {
   const { scopeInput, contextInput, modeInput } = req.body;
 
-// Set config
-const config =
+  // Set config
+  const config =
     scopeInput.length > 0 || contextInput.length > 0 || modeInput
       ? { scope: scopeInput, context: contextInput, mode: modeInput }
       : undefined;
@@ -136,20 +151,17 @@ const config =
   res.sendStatus(200); // Send a success response
 });
 
-app.get('/config', (req, res) => {
-    // Check if there's a user session and a config
-    if (!req.session || !req.session.config) {
-        return res.json({}); // Return an empty JSON object
-    }
+app.get("/config", (req, res) => {
+  // Check if there's a user session and a config
+  if (!req.session || !req.session.config) {
+    return res.json({}); // Return an empty JSON object
+  }
 
-    // Send the config data
-    return res.json(req.session.config);
+  // Send the config data
+  return res.json(req.session.config);
 });
-
-
-
 
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;
 const listener = app.listen(port || process.env.PORT, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
+  console.log("Your app is listening on port " + listener.address().port);
 });
