@@ -115,6 +115,13 @@
           <a href="https://dry-lake-09460.herokuapp.com/">
             <mwc-button raised>Visit IDP</mwc-button>
           </a>
+          {{#if (eq config.mode 'onclick')}}
+          <p class="instructions">
+            FedCM is only triggered on an exlicit click.If you don't see a sign-in dialog, you need to sign-in on the IDP
+            first as already noted
+          </p>
+          <mwc-button id="sign-in" raised onclick="signIn()">Sign In</mwc-button>
+          {{/if}}
         </div>
       </div>
     </main>
@@ -142,6 +149,7 @@
 
             let config;
 
+            // initalize from backend and start getCredential if set to onPageload
             async function initialize() {
               const configResponse = await fetch('/config');
               config = await configResponse.json();

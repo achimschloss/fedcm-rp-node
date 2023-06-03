@@ -64,6 +64,17 @@ app.use((req, res, next) => {
     return res.redirect(301, process.env.ORIGIN);
   }
   req.schema = "https";
+  
+  // Initialize config if it doesn't exist
+  if (!req.session.config) {
+    req.session.config = {
+      mode: 'pageload',
+      // Initialize other config properties as needed
+      // scope: [],
+      // context: [],
+    };
+  }
+  
   next();
 });
 
