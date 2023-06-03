@@ -1,3 +1,5 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
   entry: {
     "components-bundle": "./public/components.js",
@@ -18,7 +20,8 @@ module.exports = {
               name: "bundle.css",
             },
           },
-          { loader: "extract-loader" },
+          //{ loader: "extract-loader" },
+          MiniCssExtractPlugin.loader,
           { loader: "css-loader" },
           {
             loader: "sass-loader",
@@ -36,9 +39,15 @@ module.exports = {
         test: /components\.js$/,
         use: {
           loader: "babel-loader",
-          options: { presets: ["@babel/preset-env"] }
+          options: { presets: ["@babel/preset-env"] },
         },
       },
     ],
   },
+    plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+    }),
+  ],
+
 };
