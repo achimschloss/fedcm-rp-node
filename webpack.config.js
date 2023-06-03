@@ -1,4 +1,4 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: {
@@ -13,27 +13,7 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "bundle.css",
-            },
-          },
-          //{ loader: "extract-loader" },
-          MiniCssExtractPlugin.loader,
-          { loader: "css-loader" },
-          {
-            loader: "sass-loader",
-            options: {
-              implementation: require("sass"),
-              webpackImporter: false,
-              sassOptions: {
-                includePaths: ["./node_modules"],
-              },
-            },
-          },
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: /components\.js$/,
@@ -44,10 +24,9 @@ module.exports = {
       },
     ],
   },
-    plugins: [
+  plugins: [
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),
   ],
-
 };
