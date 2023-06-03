@@ -71,10 +71,9 @@ class Loading {
 
 export const loading = new Loading();
 
-export const getCredential = async () => {
+export const getCredential = async (config) => {
   const nonce = $('meta[name="nonce"]').content;
   // Retrieve the config from session storage
-  const config = JSON.parse(sessionStorage.getItem("config"));
 
   const providersWithNonce = providers.map((provider) => {
     let newProvider = {

@@ -79,6 +79,7 @@
               class="mdc-text-field__input"
               type="text"
               placeholder="email,name,picture"
+              value="{{config.scope}}"
             />
           </div>
           <div class="config-item">
@@ -88,8 +89,10 @@
               class="mdc-text-field__input"
               type="text"
               placeholder="use"
+              value="{{config.context}}"
             />
           </div>
+
           <mwc-button id="config-save" raised>Save</mwc-button>
         </div>
       </div>
@@ -110,82 +113,88 @@
       </div>
     </main>
     <script type="module">
-      import {
-        $,
-        toast,
-        loading,
-        _fetch,
-        getCredential,
-        handleConfigSave,
-        switchTab
-      } from "./client.js";
-      import {
-        html,
-        render,
-      } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
+            import {
+              $,
+              toast,
+              loading,
+              _fetch,
+              getCredential,
+              handleConfigSave,
+              switchTab,
+            } from "./client.js";
+            import {
+              html,
+              render,
+            } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
-      $("#home").addEventListener("click", () => switchTab("main-sections"));
-      $("#settings").addEventListener("click", () => switchTab("settings-tab"));
-      $("#code").addEventListener("click", (e) => {
-        location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
-      });
-      $("#config-save").addEventListener("click", handleConfigSave);
+            $("#home").addEventListener("click", () => switchTab("main-sections"));
+            $("#settings").addEventListener("click", () => switchTab("settings-tab"));
+            $("#code").addEventListener("click", (e) => {
+              location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
+            });
+            $("#config-save").addEventListener("click", handleConfigSave);
 
-      const signIn = async () => {
-        try {
-          try {
-            const credential = await getCredential();
-            const nonce = $('meta[name="nonce"]').content;
-            const token = credential.token; //await credential.login({ nonce });
-            console.log(token);
-            await _fetch("/verify", { token });
-            // Reload the page in case no error occurs (i.e. user was signed in successfully)
-            location.reload();
-          } catch (e) {
-            console.error(e);
-            toast(e.message);
-          }
-        } catch (e) {
-          console.error(e);
-          toast(e.message);
-        }
-      };
+            // Define a global variable to store the config
+            let config = {};
 
-      const signout = (account_id) => async () => {
-        try {
-          loading.start();
-          toast("You are signed out. Redirecting in 3.0 sec.");
-          setTimeout(() => {
-            location.href = "/signout";
-          }, 3000);
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          toast(e.message);
-        }
-      };
-      
-      const unregister = (username) => async () => {
-        try {
-          loading.start();
-          const credential = await getCredential();
-          await credential.revoke(username);
-          toast("Your account is revoked. Redirecting in 3.0 sec.");
-          setTimeout(() => {
-            location.href = "/signout";
-          }, 3000);
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          toast(e.message);
-        }
-      };
+            // Update the config variable with the initial value from the server
+            config = {{JSON.stringify(config)}};
 
-      if ("IdentityCredential" in window) {
-        await signIn();
-      } else {
-        $("#unsupported").classList.remove("hidden");
-      }
+            const signIn = async () => {
+              try {
+                try {
+                  const credential = await getCredential(config);
+                  const nonce = $('meta[name="nonce"]').content;
+                  const token = credential.token; //await credential.login({ nonce });
+                  console.log(token);
+                  await _fetch("/verify", { token });
+                  // Reload the page in case no error occurs (i.e. user was signed in successfully)
+                  location.reload();
+                } catch (e) {
+                  console.error(e);
+                  toast(e.message);
+                }
+              } catch (e) {
+                console.error(e);
+                toast(e.message);
+              }
+            };
+
+            const signout = (account_id) => async () => {
+              try {
+                loading.start();
+                toast("You are signed out. Redirecting in 3.0 sec.");
+                setTimeout(() => {
+                  location.href = "/signout";
+                }, 3000);
+              } catch (e) {
+                loading.stop();
+                console.error(e);
+                toast(e.message);
+              }
+            };
+
+            const unregister = (username) => async () => {
+              try {
+                loading.start();
+                const credential = await getCredential();
+                await credential.revoke(username);
+                toast("Your account is revoked. Redirecting in 3.0 sec.");
+                setTimeout(() => {
+                  location.href = "/signout";
+                }, 3000);
+              } catch (e) {
+                loading.stop();
+                console.error(e);
+                toast(e.message);
+              }
+            };
+
+            if ("IdentityCredential" in window) {
+              await signIn();
+            } else {
+              $("#unsupported").classList.remove("hidden");
+            }
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>
