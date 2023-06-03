@@ -74,13 +74,24 @@ iframe {
   margin-bottom: 5px;
 }
 
-.config-item input,
-.config-item select {
+.config-item input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.config-item select {
+  width: 100%;
+  font: inherit;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem; // Adjust size as necessary
+  color: #000; // Adjust color as necessary
+  background-color: #fff; // Adjust color as necessary
+}
+
 
 @media screen and (min-width: 768px) {
   .config-item {
@@ -90,7 +101,7 @@ iframe {
     label {
       margin-bottom: 0;
       margin-right: 20px;
-      width: 25%;
+      width: 30%;
       text-align: left;
     }
 
