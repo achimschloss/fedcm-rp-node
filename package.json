@@ -50,6 +50,7 @@
     "express"
   ],
   "devDependencies": {
-    "@babel/preset-env": "^7.22.4"
+    "@babel/preset-env": "^7.22.4",
+    "mini-css-extract-plugin": "^2.7.6"
   }
 }
