@@ -72,33 +72,38 @@ iframe {
   height: 300px;
 }
 
-.center {
-  
-  .config-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+.config-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates a responsive grid layout */
+  gap: 20px; /* Provides some space between the grid items */
+  align-items: center;
+  justify-items: center; /* Centers the grid items */
+  width: 100%;
+}
 
 .config-item {
+  width: 100%; 
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  width: 100%;  // Make sure the container takes the full width
-  
-  label {
-    width: 30%;  // Adjust as necessary
-    text-align: left; // Right-align the label text
-    padding-right: 10px; // Add some padding to separate from the input fields
-  }
-
-  input,
-  select {
-    width: 70%;  // The input field will take up the rest of the space
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-  }
+  flex-direction: column; /* stacks label and input field vertically */
+  align-items: flex-start;
 }
+
+.config-item label {
+  font-weight: bold;
+  margin-bottom: 5px; /* add some space between label and input field */
+}
+
+.config-item input,
+.config-item select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px; /* add some border radius to make input fields look modern */
+}
+
+@media screen and (min-width: 768px) {
+  .config-item {
+    flex-direction: row; /* aligns label and input field in a row on larger screens */
+    justify-content: space-between;
   }
 }

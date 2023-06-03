@@ -95,8 +95,8 @@
         <div class="config-item">
             <label for="mode-input">Mode:</label>
             <select id="mode-input" class="mdc-text-field__input">
-                <option value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>Page Load</option>
-                <option value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On Click</option>
+                <option value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>PageLoad</option>
+                <option value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</option>
             </select>
         </div>
           <mwc-button id="config-save" raised>Save</mwc-button>
@@ -105,23 +105,28 @@
       <div id="main-sections">
         <div id="profile" class="center"></div>
         <div id="login" class="center">
+          {{#if (eq config.mode 'pageload')}}
           <p class="instructions">
             If you don't see a sign-in dialog, you need to sign-in on the IDP
             first. The IDP might also need to "wake-up" again given its a
             testing setup its not always running. Visiting the IDP will help in
             this case too
           </p>
+          {{/if}}
+          {{#if (eq config.mode 'onclick')}}
+          <p class="instructions">
+            FedCM is triggered on an exlicit click. If you don't see a sign-in dialog 
+            afterwards, you need to sign-in on the IDP first. The IDP might also need to 
+            "wake-up" again given its a testing setup its not always running. 
+            Visiting the IDP will help in
+            this case too
+          </p>
+          <mwc-button id="signOnButton" raised>Sign In</mwc-button>
+          {{/if}}
           <!-- Add a button to link to the sign-in page -->
           <a href="https://dry-lake-09460.herokuapp.com/">
             <mwc-button raised>Visit IDP</mwc-button>
           </a>
-          {{#if (eq config.mode 'onclick')}}
-          <p class="instructions">
-            FedCM is only triggered on an exlicit click.If you don't see a sign-in dialog, you need to sign-in on the IDP
-            first as already noted
-          </p>
-          <mwc-button id="signOnButton" raised>Sign In</mwc-button>
-          {{/if}}
         </div>
       </div>
     </main>
