@@ -134,16 +134,10 @@
             });
             $("#config-save").addEventListener("click", handleConfigSave);
 
-            // Define a global variable to store the config
-            let config = {};
-
-            // Update the config variable with the initial value from the server
-            const config = JSON.parse('{{JSON.stringify(config)}}');
-
             const signIn = async () => {
               try {
                 try {
-                  const credential = await getCredential(config);
+                  const credential = await getCredential();
                   const nonce = $('meta[name="nonce"]').content;
                   const token = credential.token; //await credential.login({ nonce });
                   console.log(token);
