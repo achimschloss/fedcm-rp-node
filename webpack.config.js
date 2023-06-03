@@ -1,11 +1,11 @@
 module.exports = {
   entry: {
-    'components-bundle': './public/components.js',
-    'styles-bundle': './public/style.scss',
+    "components-bundle": "./public/components.js",
+    "styles-bundle": "./public/style.scss",
   },
-  mode: 'production',
+  mode: "production",
   output: {
-    filename: '[name].js',
+    filename: "[name].js",
   },
   module: {
     rules: [
@@ -13,20 +13,20 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: 'bundle.css',
+              name: "bundle.css",
             },
           },
-          { loader: 'extract-loader' },
-          { loader: 'css-loader' },
+          { loader: "extract-loader" },
+          { loader: "css-loader" },
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
-              implementation: require('sass'),
+              implementation: require("sass"),
               webpackImporter: false,
               sassOptions: {
-                includePaths: ['./node_modules'],
+                includePaths: ["./node_modules"],
               },
             },
           },
@@ -34,8 +34,10 @@ module.exports = {
       },
       {
         test: /components\.js$/,
-        loader: 'babel-loader',
-        query: { presets: ['env'] },
+        use: {
+          loader: "babel-loader",
+          options: { presets: ["@babel/preset-env"] }
+        },
       },
     ],
   },
