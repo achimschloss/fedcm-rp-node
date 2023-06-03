@@ -131,6 +131,16 @@ app.post("/config-save", (req, res) => {
   res.sendStatus(200); // Send a success response
 });
 
+app.get('/config', (req, res) => {
+    // Check if there's a user session
+    if (!req.session || !req.session.config) {
+        return res.sendStatus(401); // Unauthorized
+    }
+
+    // Send the config data
+    return res.json(req.session.config);
+});
+
 
 
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;

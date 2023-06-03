@@ -138,7 +138,7 @@
             let config = {};
 
             // Update the config variable with the initial value from the server
-            config = {{JSON.stringify(config)}};
+            const config = JSON.parse('{{JSON.stringify(config)}}');
 
             const signIn = async () => {
               try {
