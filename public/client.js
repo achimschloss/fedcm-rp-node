@@ -117,7 +117,7 @@ export const handleConfigSave = async () => {
 
   if (response.ok) {
     // Configuration saved successfully, handle any necessary actions
-    switchTab("main-sections");
+    location.reload()
   } else {
     // Handle any error cases
     console.error("Failed to save configuration");

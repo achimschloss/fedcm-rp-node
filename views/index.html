@@ -120,7 +120,7 @@
             FedCM is only triggered on an exlicit click.If you don't see a sign-in dialog, you need to sign-in on the IDP
             first as already noted
           </p>
-          <mwc-button id="sign-in" raised onclick="signIn()">Sign In</mwc-button>
+          <mwc-button id="signOnButton" raised>Sign In</mwc-button>
           {{/if}}
         </div>
       </div>
@@ -140,7 +140,7 @@
               render,
             } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
-            $("#home").addEventListener("click", () => switchTab("main-sections"));
+            $("#home").addEventListener("click", () => location.reload());
             $("#settings").addEventListener("click", () => switchTab("settings-tab"));
             $("#code").addEventListener("click", (e) => {
               location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
@@ -157,6 +157,10 @@
               if ("IdentityCredential" in window) {
                 if (config && config.mode === 'pageload') {
                   signIn();
+                } else {
+                  $("#signOnButton").addEventListener('click', async function() {
+                      await signIn();
+                  });
                 }
               } else {
                 $("#unsupported").classList.remove("hidden");
