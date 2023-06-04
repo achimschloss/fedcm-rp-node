@@ -68,38 +68,38 @@
         flag chrome://flags/#fedcm.
       </p>
       <div id="settings-tab" class="center hidden">
-          <h3>Settings</h3>
-          <!-- Your existing settings UI goes here -->
-          <div class="config-container">
-              <div class="config-item">
-                  <label for="scope-input">Scope:</label>
-                  <input
-                      id="scope-input"
-                      class="mdc-text-field__input"
-                      type="text"
-                      placeholder="email,name,picture"
-                      value="{{config.scope}}"
-                  />
-              </div>
-              <div class="config-item">
-                  <label for="context-input">Context:</label>
-                  <input
-                      id="context-input"
-                      class="mdc-text-field__input"
-                      type="text"
-                      placeholder="use"
-                      value="{{config.context}}"
-                  />
-              </div>
-              <div class="config-item">
-                  <label for="mode-input">Mode:</label>
+        <h3>Settings</h3>
+        <!-- Your existing settings UI goes here -->
+        <div class="config-container">
+          <div class="config-item">
+            <label for="scope-input">Scope:</label>
+            <input
+              id="scope-input"
+              class="mdc-text-field__input"
+              type="text"
+              placeholder="email,name,picture"
+              value="{{config.scope}}"
+            />
+          </div>
+          <div class="config-item">
+            <label for="context-input">Context:</label>
+            <input
+              id="context-input"
+              class="mdc-text-field__input"
+              type="text"
+              placeholder="use"
+              value="{{config.context}}"
+            />
+          </div>
+          <div class="config-item">
+            <label for="mode-input">Mode:</label>
                   <select id="mode-input" class="mdc-text-field__input">
                       <option value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>PageLoad</option>
                       <option value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</option>
                   </select>
-              </div>
-              <mwc-button id="config-save" raised>Save</mwc-button>
           </div>
+          <mwc-button id="config-save" raised>Save</mwc-button>
+        </div>
       </div>
 
       <div id="main-sections">
@@ -112,14 +112,12 @@
             testing setup its not always running. Visiting the IDP will help in
             this case too
           </p>
-          {{/if}}
-          {{#if (eq config.mode 'onclick')}}
+          {{/if}} {{#if (eq config.mode 'onclick')}}
           <p class="instructions">
-            FedCM is triggered on an exlicit click. If you don't see a sign-in dialog 
-            afterwards, you need to sign-in on the IDP first. The IDP might also need to 
-            "wake-up" again given its a testing setup its not always running. 
-            Visiting the IDP will help in
-            this case too
+            FedCM is triggered on an exlicit click. If you don't see a sign-in
+            dialog afterwards, you need to sign-in on the IDP first. The IDP
+            might also need to "wake-up" again given its a testing setup its not
+            always running. Visiting the IDP will help in this case too
           </p>
           <mwc-button id="signOnButton" raised>Sign In</mwc-button>
           {{/if}}
@@ -131,96 +129,95 @@
       </div>
     </main>
     <script type="module">
-            import {
-              $,
-              toast,
-              loading,
-              _fetch,
-              getCredential,
-              handleConfigSave,
-              switchTab,
-            } from "./client.js";
+      import {
+        $,
+        toast,
+        loading,
+        _fetch,
+        getCredential,
+        handleConfigSave,
+        switchTab,
+      } from "./client.js";
 
-            $("#home").addEventListener("click", () => location.reload());
-            $("#settings").addEventListener("click", () => switchTab("settings-tab"));
-            $("#code").addEventListener("click", (e) => {
-              location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
+      $("#home").addEventListener("click", () => location.reload());
+      $("#settings").addEventListener("click", () => switchTab("settings-tab"));
+      $("#code").addEventListener("click", (e) => {
+        location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
+      });
+      $("#config-save").addEventListener("click", handleConfigSave);
+
+      let config;
+
+      // initalize from backend and start getCredential if set to onPageload
+      async function initialize() {
+        const configResponse = await fetch("/config");
+        config = await configResponse.json();
+
+        if ("IdentityCredential" in window) {
+          if (config && config.mode === "pageload") {
+            signIn();
+          } else {
+            $("#signOnButton").addEventListener("click", async function () {
+              await signIn();
             });
-            $("#config-save").addEventListener("click", handleConfigSave);
+          }
+        } else {
+          $("#unsupported").classList.remove("hidden");
+        }
+        // Other setup tasks go here...
+      }
 
-            let config;
+      initialize().catch((err) => console.error(err));
 
-            // initalize from backend and start getCredential if set to onPageload
-            async function initialize() {
-              const configResponse = await fetch('/config');
-              config = await configResponse.json();
+      const signIn = async () => {
+        try {
+          try {
+            const credential = await getCredential(config);
+            const nonce = $('meta[name="nonce"]').content;
+            const token = credential.token; //await credential.login({ nonce });
+            console.log(token);
+            await _fetch("/verify", { token });
+            // Reload the page in case no error occurs (i.e. user was signed in successfully)
+            location.reload();
+          } catch (e) {
+            console.error(e);
+            toast(e.message);
+          }
+        } catch (e) {
+          console.error(e);
+          toast(e.message);
+        }
+      };
 
-              if ("IdentityCredential" in window) {
-                if (config && config.mode === 'pageload') {
-                  signIn();
-                } else {
-                  $("#signOnButton").addEventListener('click', async function() {
-                      await signIn();
-                  });
-                }
-              } else {
-                $("#unsupported").classList.remove("hidden");
-              }
-              // Other setup tasks go here...
-            }
-      
-            initialize().catch(err => console.error(err));
-            
-            const signIn = async () => {
-              try {
-                try {
-                  const credential = await getCredential(config);
-                  const nonce = $('meta[name="nonce"]').content;
-                  const token = credential.token; //await credential.login({ nonce });
-                  console.log(token);
-                  await _fetch("/verify", { token });
-                  // Reload the page in case no error occurs (i.e. user was signed in successfully)
-                  location.reload();
-                } catch (e) {
-                  console.error(e);
-                  toast(e.message);
-                }
-              } catch (e) {
-                console.error(e);
-                toast(e.message);
-              }
-            };
+      const signout = (account_id) => async () => {
+        try {
+          loading.start();
+          toast("You are signed out. Redirecting in 3.0 sec.");
+          setTimeout(() => {
+            location.href = "/signout";
+          }, 3000);
+        } catch (e) {
+          loading.stop();
+          console.error(e);
+          toast(e.message);
+        }
+      };
 
-            const signout = (account_id) => async () => {
-              try {
-                loading.start();
-                toast("You are signed out. Redirecting in 3.0 sec.");
-                setTimeout(() => {
-                  location.href = "/signout";
-                }, 3000);
-              } catch (e) {
-                loading.stop();
-                console.error(e);
-                toast(e.message);
-              }
-            };
-
-            const unregister = (username) => async () => {
-              try {
-                loading.start();
-                const credential = await getCredential();
-                await credential.revoke(username);
-                toast("Your account is revoked. Redirecting in 3.0 sec.");
-                setTimeout(() => {
-                  location.href = "/signout";
-                }, 3000);
-              } catch (e) {
-                loading.stop();
-                console.error(e);
-                toast(e.message);
-              }
-            };
-
+      const unregister = (username) => async () => {
+        try {
+          loading.start();
+          const credential = await getCredential();
+          await credential.revoke(username);
+          toast("Your account is revoked. Redirecting in 3.0 sec.");
+          setTimeout(() => {
+            location.href = "/signout";
+          }, 3000);
+        } catch (e) {
+          loading.stop();
+          console.error(e);
+          toast(e.message);
+        }
+      };
     </script>
     <mwc-snackbar id="snackbar"></mwc-snackbar>
   </body>
