@@ -37,7 +37,6 @@
       rel="stylesheet"
       href="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/gh/herrjemand/Base64URL-ArrayBuffer@latest/lib/base64url-arraybuffer.js"></script>
     <script src="components-bundle.js" type="module"></script>
     <meta name="nonce" content="{{nonce}}" />
     <meta http-equiv="origin-trial" content="{{ot_token}}" />
@@ -47,15 +46,9 @@
       <script type="module">
         import {
           $,
-          toast,
-          loading,
-          _fetch,
-          signout,
+          signout
         } from "./client.js";
-        import {
-          html,
-          render,
-        } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
+        
         $("#code").addEventListener("click", (e) => {
           location.href =
             "https://glitch.com/edit/#!/furtive-candy-cauliflower";
@@ -75,10 +68,6 @@
     <mwc-linear-progress id="progress"></mwc-linear-progress>
     <main class="content">
       <h2 class="center">Congrats!</h2>
-      <p id="unsupported" class="warning hidden">
-        Your browser does not support FedCM. Try on Chrome for Android with a
-        flag chrome://flags/#fedcm.
-      </p>
       <div id="main-sections">
         <div id="profile" class="center">
           <p id="signed-in-msg">You are signed in!</p>
