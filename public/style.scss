@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   --mdc-theme-primary: green;
-  --mdc-select-min-width: 50;
+  --mdc-switch-selected-track-color: grey;
 }
 
 body {
@@ -52,6 +52,17 @@ mwc-button {
   }
 }
 
+.personalizedButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.personalizedButton iframe {
+    border: none;
+}
+
+
 .config-container {
   display: flex;
   flex-direction: column;
@@ -73,11 +84,14 @@ mwc-button {
 
 .config-item mwc-switch {
   width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  outline: none;
+}
+
+.config-item mwc-select {
+  width: 100%;
+}
+
+.config-item mwc-textfield {
+  width: 100%;
 }
 
 @media screen and (min-width: 768px) {
