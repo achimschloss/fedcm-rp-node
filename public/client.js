@@ -155,6 +155,7 @@ export const createIframe = (containerId) => {
   
   iframe.src = `${origin_idp}/embedded?clientId=${encodeURIComponent(clientId)}`;
   iframe.referrerPolicy = "origin";
+  iframe.allow = 'identity-credentials-get';
 
   const container = document.getElementById(containerId);
 
