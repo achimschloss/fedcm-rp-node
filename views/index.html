@@ -103,7 +103,7 @@
             <label for="user-info-toggle">User Info:</label>
               <mwc-switch
                 id="user-info-toggle"
-                ?checked="{{config.userInfoEnabled}}"
+                {{#if (eq config.userInfoEnabled 'true')}}selected{{/if}}
               ></mwc-switch>
           </div>
         </div>

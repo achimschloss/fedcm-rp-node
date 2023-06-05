@@ -106,7 +106,7 @@ export const handleConfigSave = async () => {
   const scopeInput = $("#scope-input").value.split(",");
   const contextInput = $("#context-input").value;
   const modeInput = $("#mode-input").value; // Get the value of the mode input field
-   const userInfoInput = document.getElementById("user-info-toggle").checked
+  const userInfoInput = document.getElementById("user-info-toggle").selected
 
   const response = await fetch("/config-save", {
     method: "POST",
