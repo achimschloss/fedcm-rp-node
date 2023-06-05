@@ -146,3 +146,21 @@ export const signout = (account_id) => async () => {
     toast(e.message);
   }
 };
+
+//
+export const createIframe = (configURL, clientId, containerId) => {
+    const iframe = document.createElement('iframe');
+    iframe.src = `http://your-server/iframe?configURL=${encodeURIComponent(configURL)}&clientId=${encodeURIComponent(clientId)}`;
+    iframe.referrerPolicy = 'origin';
+
+    // Append the iframe to the specified container
+    const container = document.getElementById(containerId);
+    if (container) {
+      container.appendChild(iframe);
+    } else {
+      console.warn(`Container with id ${containerId} not found. Appending iframe to body.`);
+      document.body.appendChild(iframe);
+    }
+
+    return iframe;
+}
