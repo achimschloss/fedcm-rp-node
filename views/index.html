@@ -72,13 +72,7 @@
         <!-- Your existing settings UI goes here -->
         <div class="config-container">
           <div class="config-item">
-            <mwc-textfield 
-              id="scope-input"
-              label="Scope" 
-              placeholder="email,name,picture" 
-              value="{{config.scope}}"
-              outlined>
-            </mwc-textfield>
+            <mwc-textfield outlined label="Scope" id="scope-input" placeholder="email,name,picture" value="{{config.scope}}"></mwc-textfield>
           </div>
           <div class="config-item">
             <mwc-textfield 
@@ -91,6 +85,7 @@
           </div>
           <div class="config-item">
               <mwc-select id="mode-input" outlined label="Mode">
+                  <mwc-list-item></mwc-list-item>
                   <mwc-list-item value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>PageLoad</mwc-list-item>
                   <mwc-list-item value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</mwc-list-item>
               </mwc-select>
