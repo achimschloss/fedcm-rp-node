@@ -134,7 +134,9 @@
             <mwc-button raised>Visit IDP</mwc-button>
           </a>
         </div>
+        {{#if config.userInfoEnabled}}
         <div id="personalizedButton"></div>
+        {{/if}}
       </div>
     </main>
     <script type="module">
@@ -174,9 +176,10 @@
         } else {
           $("#unsupported").classList.remove("hidden");
         }
-
-        // Other setup tasks go here...
-        createIframe("personalizedButton");
+        
+        if(config && config.userInfoEnabled) {
+          createIframe("personalizedButton");
+        }
       }
 
       initialize().catch((err) => console.error(err));

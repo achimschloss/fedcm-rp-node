@@ -107,7 +107,8 @@ iframe {
   }
 
   .config-item input,
-  .config-item select {
+  .config-item select
+  .config-item mwc-switch{
     width: 70%;
   }
 }
