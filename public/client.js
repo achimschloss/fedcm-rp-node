@@ -4,9 +4,9 @@ import {
 } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
 
 const IDP_ORIGIN_A = "https://idp-a-test.de/fedcm.json";
-//const IDP_ORIGIN_B = "https://idp-b-test.de/fedcm.json";
-const IDP_ORIGIN_B = "https://dry-lake-09460.herokuapp.com/fedcm.json";
-//const IDP_ORIGIN = 'https://fedcm-idp-demo.glitch.me/'
+const IDP_ORIGIN_B = "https://idp-b-test.de/fedcm.json";
+//const IDP_ORIGIN_B = "https://dry-lake-09460.herokuapp.com/fedcm.json";
+
 const CLIENT_ID_A = "asdfasdfw23e4234qw";
 const CLIENT_ID_B = "234q2asdfasdfasdfa";
 
@@ -150,12 +150,15 @@ export const signout = (account_id) => async () => {
 // create personlized button (IFrame served from IDP) at given div containerID
 export const createIframe = (containerId) => {
   const iframe = document.createElement("iframe");
-  iframe.src = `${origin}/iframe?clientId=${encodeURIComponent(clientId)}`;
+  const clientId = CLIENT_ID_B
+  const origin_idp = new URL(IDP_ORIGIN_B).origin;
+  
+  iframe.src = `${origin_idp}/embedded?clientId=${encodeURIComponent(clientId)}`;
   iframe.referrerPolicy = "origin";
 
   const container = document.getElementById(containerId);
 
-  if (container.length > 0) {
+  if (container) {
     container.append(iframe);
   } else {
     console.warn(
