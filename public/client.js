@@ -106,13 +106,14 @@ export const handleConfigSave = async () => {
   const scopeInput = $("#scope-input").value.split(",");
   const contextInput = $("#context-input").value;
   const modeInput = $("#mode-input").value; // Get the value of the mode input field
+   const userInfoInput = document.getElementById("user-info-toggle").checked
 
   const response = await fetch("/config-save", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ scopeInput, contextInput, modeInput }), // Include modeInput in the object
+    body: JSON.stringify({ scopeInput, contextInput, modeInput, userInfoInput }), // Include modeInput in the object
   });
 
   if (response.ok) {
