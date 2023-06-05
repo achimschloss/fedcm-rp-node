@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   --mdc-theme-primary: green;
+  --mdc-select-min-width: 50;
 }
 
 body {
@@ -49,12 +50,6 @@ mwc-button {
     text-decoration: none;
     color: inherit;
   }
-}
-
-iframe {
-  border: none;
-  width: 500px;
-  height: 300px;
 }
 
 .config-container {
@@ -107,8 +102,11 @@ iframe {
   }
 
   .config-item input,
-  .config-item select
-  .config-item mwc-switch{
+  .config-item select {
+    width: 70%;
+  }
+  
+  .config-item mwc-switch {
     width: 70%;
   }
 }
