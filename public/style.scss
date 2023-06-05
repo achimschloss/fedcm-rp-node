@@ -84,23 +84,30 @@ iframe {
   border-radius: 5px;
 }
 
-
+.config-item mwc-switch {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  outline: none;
+}
 
 @media screen and (min-width: 768px) {
   .config-item {
     flex-direction: row;
     align-items: center;
+  }
 
-    label {
-      margin-bottom: 0;
-      margin-right: 20px;
-      width: 30%;
-      text-align: left;
-    }
+  .config-item label {
+    margin-bottom: 0;
+    margin-right: 20px;
+    width: 30%;
+    text-align: left;
+  }
 
-    input,
-    select {
-      width: 80%;
-    }
+  .config-item input,
+  .config-item select {
+    width: 70%;
   }
 }
