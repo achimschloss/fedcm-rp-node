@@ -68,7 +68,7 @@ app.use((req, res, next) => {
   // Initialize config if it doesn't exist
   if (!req.session.config) {
     req.session.config = {
-      mode: 'pageload',
+      mode: 'onclick',
       // Initialize other config properties as needed
       // scope: [],
       // context: [],
