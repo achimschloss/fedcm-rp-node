@@ -71,14 +71,6 @@ mwc-button {
   margin-bottom: 5px;
 }
 
-.config-item input,
-.config-item select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
 .config-item mwc-switch {
   width: 100%;
   padding: 10px;
@@ -100,13 +92,10 @@ mwc-button {
     width: 30%;
     text-align: left;
   }
-
-  .config-item input,
-  .config-item select {
-    width: 70%;
-  }
   
-  .config-item mwc-switch {
+  .config-item mwc-switch
+  .config-item mwc-select
+  .config-item mwc-textfield {
     width: 70%;
   }
 }
