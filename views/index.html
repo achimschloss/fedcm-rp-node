@@ -126,6 +126,8 @@
           </a>
         </div>
       </div>
+      <div id="personalizedButton">  
+      </div>
     </main>
     <script type="module">
       import {
@@ -136,6 +138,7 @@
         getCredential,
         handleConfigSave,
         switchTab,
+        createIframe
       } from "./client.js";
 
       $("#home").addEventListener("click", () => location.reload());
@@ -163,7 +166,9 @@
         } else {
           $("#unsupported").classList.remove("hidden");
         }
+        
         // Other setup tasks go here...
+        createIframe("personalizedButton")
       }
 
       initialize().catch((err) => console.error(err));

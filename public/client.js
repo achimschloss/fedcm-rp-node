@@ -147,20 +147,19 @@ export const signout = (account_id) => async () => {
   }
 };
 
-//
-export const createIframe = (configURL, clientId, containerId) => {
-    const iframe = document.createElement('iframe');
-    iframe.src = `http://your-server/iframe?configURL=${encodeURIComponent(configURL)}&clientId=${encodeURIComponent(clientId)}`;
-    iframe.referrerPolicy = 'origin';
+// create personlized button (IFrame served from IDP) at given div containerID
+export const createIframe = (containerId) => {
+  const iframe = document.createElement("iframe");
+  iframe.src = `${origin}/iframe?clientId=${encodeURIComponent(clientId)}`;
+  iframe.referrerPolicy = "origin";
 
-    // Append the iframe to the specified container
-    const container = document.getElementById(containerId);
-    if (container) {
-      container.appendChild(iframe);
-    } else {
-      console.warn(`Container with id ${containerId} not found. Appending iframe to body.`);
-      document.body.appendChild(iframe);
-    }
+  const container = document.getElementById(containerId);
 
-    return iframe;
-}
+  if (container.length > 0) {
+    container.append(iframe);
+  } else {
+    console.warn(
+      `Container with id ${containerId} not found. Appending iframe to body.`
+    );
+  }
+};
