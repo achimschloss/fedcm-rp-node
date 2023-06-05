@@ -83,22 +83,33 @@
             <mwc-textfield
               outlined
               id="scope-input"
-              label = "Scope"
+              label="Scope"
               placeholder="email,name,picture"
               value="{{config.scope}}"
             ></mwc-textfield>
           </div>
           <div class="config-item">
-            <label for="context-inpu">Context:</label>
+            <label for="context-input">Context:</label>
             <mwc-textfield
               id="context-input"
               placeholder="use"
-              label = "Context"
+              label="Context"
               value="{{config.context}}"
               outlined
             >
             </mwc-textfield>
+            <div class="config-item">
+              <label for="user-info-toggle">User Info:</label>
+              <mwc-switch
+                id="user-info-toggle"
+                ?checked="{{config.userInfoEnabled}}"
+              ></mwc-switch>
+            </div>
           </div>
+          <div class="config-item">
+            <label for="user-info-toggle">User Info:</label>
+            <mwc-switch id="user-info-toggle" ?checked="{{config.userInfoEnabled}}"></mwc-switch>
+  </div>
         </div>
         <mwc-button id="config-save" raised>Save</mwc-button>
       </div>
@@ -127,8 +138,7 @@
             <mwc-button raised>Visit IDP</mwc-button>
           </a>
         </div>
-       <div id="personalizedButton">  
-      </div>
+        <div id="personalizedButton"></div>
       </div>
     </main>
     <script type="module">
@@ -140,7 +150,7 @@
         getCredential,
         handleConfigSave,
         switchTab,
-        createIframe
+        createIframe,
       } from "./client.js";
 
       $("#home").addEventListener("click", () => location.reload());
@@ -168,9 +178,9 @@
         } else {
           $("#unsupported").classList.remove("hidden");
         }
-        
+
         // Other setup tasks go here...
-        createIframe("personalizedButton")
+        createIframe("personalizedButton");
       }
 
       initialize().catch((err) => console.error(err));

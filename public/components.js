@@ -7,3 +7,4 @@ import '@material/mwc-snackbar';
 import '@material/mwc-icon-button';
 import '@material/mwc-select';
 import '@material/mwc-list/mwc-list-item';
+import '@material/mwc-switch';
