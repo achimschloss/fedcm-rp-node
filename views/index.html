@@ -71,40 +71,34 @@
         <h2>Settings</h2>
         <!-- Your existing settings UI goes here -->
         <div class="config-container">
-        <div class="config-section">
-            <h4>General</h4>
-            <div class="config-item">
-              <label for="mode-input">Mode:</label>
-                <mwc-select id="mode-input" outlined>
-                    <mwc-list-item value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>PageLoad</mwc-list-item>
-                    <mwc-list-item value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</mwc-list-item>
-                </mwc-select>
-            </div>
+          <div class="config-item">
+            <label for="mode-input">Mode:</label>
+            <mwc-select id="mode-input" outlined>
+              <mwc-list-item value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>PageLoad</mwc-list-item>
+              <mwc-list-item value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</mwc-list-item>
+            </mwc-select>
           </div>
-          <div class="config-section">
-            <h4>Experimental</h4>
-            <div class="config-item">
-              <label for="scope-input">Scope:</label>
-              <mwc-textfield
-                outlined
-                id="scope-input"
-                placeholder="email,name,picture"
-                value="{{config.scope}}"
-              ></mwc-textfield>
-            </div>
-            <div class="config-item">
-              <label for="context-inpu">Context:</label>
-              <mwc-textfield
-                id="context-input"
-                placeholder="use"
-                value="{{config.context}}"
-                outlined
-              >
-              </mwc-textfield>
-            </div>
+          <div class="config-item">
+            <label for="scope-input">Scope:</label>
+            <mwc-textfield
+              outlined
+              id="scope-input"
+              placeholder="email,name,picture"
+              value="{{config.scope}}"
+            ></mwc-textfield>
           </div>
-          <mwc-button id="config-save" raised>Save</mwc-button>
+          <div class="config-item">
+            <label for="context-inpu">Context:</label>
+            <mwc-textfield
+              id="context-input"
+              placeholder="use"
+              value="{{config.context}}"
+              outlined
+            >
+            </mwc-textfield>
+          </div>
         </div>
+        <mwc-button id="config-save" raised>Save</mwc-button>
       </div>
 
       <div id="main-sections">
