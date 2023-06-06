@@ -55,8 +55,22 @@ function getUser(user_id, username = "", name = "", picture = "") {
     } catch (error) {
       console.error("Error writing to the database:", error);
     }
+  } else {
+    // If user entry already exists, update it
+    user = {
+      ...user,
+      username,
+      name,
+      picture,
+    };
+    try {
+      db.get("users").find({ user_id }).assign(user).write();
+    } catch (error) {
+      console.error("Error updating the database:", error);
+    }
   }
   return user;
 }
+
 
 module.exports = { csrfCheck, sessionCheck, getUser };
