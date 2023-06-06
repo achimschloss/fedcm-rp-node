@@ -57,6 +57,7 @@ function getUser(user_id, username = "", name = "", picture = "") {
     }
   } else {
     // If user entry already exists, update it
+    // this is to support different scope (updating the user object if more scopes are presen)
     user = {
       ...user,
       username,
