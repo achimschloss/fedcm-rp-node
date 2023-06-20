@@ -69,6 +69,7 @@ app.use((req, res, next) => {
   if (!req.session.config) {
     req.session.config = {
       mode: 'onclick',
+      mediation: 'optional'
       // Initialize other config properties as needed
       // scope: [],
       // context: [],
