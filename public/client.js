@@ -107,13 +107,14 @@ export const handleConfigSave = async () => {
   const contextInput = $("#context-input").value;
   const modeInput = $("#mode-input").value; // Get the value of the mode input field
   const userInfoInput = document.getElementById("user-info-toggle").selected
+  const mediationInput = $("#mediation-input").value; // Get the value of the mediation mode input field
 
   const response = await fetch("/config-save", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ scopeInput, contextInput, modeInput, userInfoInput }), // Include modeInput in the object
+    body: JSON.stringify({ scopeInput, contextInput, modeInput, userInfoInput, mediationInput }), // Include modeInput in the object
   });
 
   if (response.ok) {

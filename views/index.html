@@ -78,6 +78,14 @@
               <mwc-list-item value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</mwc-list-item>
             </mwc-select>
           </div>
+          <label for="mediation-input">Mode:</label>
+            <mwc-select id="mediation-input" outlined>
+              <mwc-list-item value="silent" {{#if (eq config.mode 'silent')}}selected{{/if}}>Silent</mwc-list-item>
+              <mwc-list-item value="optional" {{#if (eq config.mode 'optional')}}selected{{/if}}>Optional</mwc-list-item>
+              <mwc-list-item value="conditional" {{#if (eq config.mode 'conditional')}}selected{{/if}}>Conditional</mwc-list-item>
+              <mwc-list-item value="required" {{#if (eq config.mode 'required')}}selected{{/if}}>Required</mwc-list-item>
+            </mwc-select>
+          </div>
           <div class="config-item">
             <label for="scope-input">Scope:</label>
             <mwc-textfield

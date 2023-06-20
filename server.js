@@ -148,12 +148,12 @@ app.get("/", (req, res) => {
 });
 
 app.post("/config-save", (req, res) => {
-  const { scopeInput, contextInput, modeInput, userInfoInput} = req.body;
+  const { scopeInput, contextInput, modeInput, userInfoInput, mediationInput} = req.body;
 
   // Set config
   const config =
-    scopeInput.length > 0 || contextInput.length > 0 || modeInput
-      ? { scope: scopeInput, context: contextInput, mode: modeInput, userInfoEnabled: userInfoInput }
+    scopeInput.length > 0 || contextInput.length > 0 || modeInput || mediationInput
+      ? { scope: scopeInput, context: contextInput, mode: modeInput, userInfoEnabled: userInfoInput, mediation: mediationInput }
       : undefined;
 
   // Save the config in the server-side session
