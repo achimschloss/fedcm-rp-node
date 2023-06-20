@@ -96,7 +96,14 @@ export const getCredential = async (config) => {
   if (config && config.context) {
     identity.context = config.context;
   }
+  
+  // Only add the mediation if it's defined in the config
+  if (config && config.mediation) {
+    identity.mediation = config.mediation;
+  }
 
+  console.log(identity)
+  
   return navigator.credentials.get({
     identity: identity,
   });
