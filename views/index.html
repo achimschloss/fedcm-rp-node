@@ -208,10 +208,12 @@
             const token = credential.token; //await credential.login({ nonce });
             console.log(token);
             await _fetch("/verify", { token });
-            /* Reload the page in case no error occurs (i.e. user was signed in successfully)
+            /* 
+               Reload the page in case no error occurs (i.e. user was signed in successfully)
                Note this is a simplistic example to finish the login flow. We do a very basic ID Token 
                verification with a fixed secret (see server.js). If this would be a OPEN_ID based IDP (outside of FedCM) 
-               the usual mechanisms would be applied for ID t
+               the usual mechanisms would be applied for ID Token verfication, or the token here might be a
+               authorization code and could for example reload the /auth callback of the RP with the code
             */
             location.reload();
           } catch (e) {
