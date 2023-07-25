@@ -182,7 +182,7 @@ export const createIframe = (containerId) => {
   const clientId = CLIENT_ID_B
   const origin_idp = new URL(IDP_ORIGIN_B).origin;
   
-  iframe.src = `${origin_idp}/embedded?clientId=${encodeURIComponent(clientId)}`;
+  iframe.src = `${origin_idp}/fedcm/embedded?clientId=${encodeURIComponent(clientId)}`;
   iframe.referrerPolicy = "origin";
   iframe.allow = 'identity-credentials-get';
 
