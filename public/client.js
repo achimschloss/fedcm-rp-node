@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Portions of this code are derived from the FedCM Demo 
- * https://fedcm-rp-demo.glitch.me/, licensed under the Apache License, 
+ * Portions of this code are derived from the FedCM Demo
+ * https://fedcm-rp-demo.glitch.me/, licensed under the Apache License,
  * Version 2.0 by 2019 Google Inc. Copyright 2019
-*/
+ */
 
 import {
   html,
-  render,
-} from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
+  render
+} from 'https://unpkg.com/lit-html@2.2.0/lit-html.js?module'
 
-const IDP_ORIGIN_A = "https://idp-a-test.de/fedcm.json";
-//const IDP_ORIGIN_B = "https://idp-b-test.de/fedcm.json";
-const IDP_ORIGIN_B = "https://dry-lake-09460.herokuapp.com/fedcm.json";
+const IDP_ORIGIN_A = ''
+const IDP_ORIGIN_B = 'http://localhost:8080/fedcm.json'
 
-const CLIENT_ID_A = "asdfasdfw23e4234qw";
-const CLIENT_ID_B = "234q2asdfasdfasdfa";
+const CLIENT_ID_A = 'asdfasdfw23e4234qw'
+const CLIENT_ID_B = 'yourClientID'
 
 // MultiIDP is only available as behind a feature flag
 const providers = [
@@ -38,161 +37,169 @@ const providers = [
   },*/
   {
     configURL: IDP_ORIGIN_B,
-    clientId: CLIENT_ID_B,
-  },
-];
+    clientId: CLIENT_ID_B
+  }
+]
 
-export const $ = document.querySelector.bind(document);
+export const $ = document.querySelector.bind(document)
 
-export const toast = (text) => {
-  $("#snackbar").labelText = text;
-  $("#snackbar").show();
-};
+export const toast = text => {
+  $('#snackbar').labelText = text
+  $('#snackbar').show()
+}
 
-export const displayProfile = (profile) => {
-  render(html`<div></div>`, $("#profile"));
-};
+export const displayProfile = profile => {
+  render(html`<div></div>`, $('#profile'))
+}
 
-export const _fetch = async (path, payload = "") => {
+export const _fetch = async (path, payload = '') => {
   const headers = {
-    "X-Requested-With": "XMLHttpRequest",
-  };
+    'X-Requested-With': 'XMLHttpRequest'
+  }
   if (payload && !(payload instanceof FormData)) {
-    headers["Content-Type"] = "application/json";
-    payload = JSON.stringify(payload);
+    headers['Content-Type'] = 'application/json'
+    payload = JSON.stringify(payload)
   }
   const res = await fetch(path, {
-    method: "POST",
-    credentials: "same-origin",
+    method: 'POST',
+    credentials: 'same-origin',
     headers: headers,
-    body: payload,
-  });
+    body: payload
+  })
   if (res.status === 200) {
     // Server authentication succeeded
-    return res.json();
+    return res.json()
   } else {
     // Server authentication failed
-    const result = await res.json();
-    throw result.error;
-  }
-};
-
-class Loading {
-  constructor() {
-    this.progress = $("#progress");
-  }
-  start() {
-    this.progress.indeterminate = true;
-  }
-  stop() {
-    this.progress.indeterminate = false;
+    const result = await res.json()
+    throw result.error
   }
 }
 
-export const loading = new Loading();
+class Loading {
+  constructor () {
+    this.progress = $('#progress')
+  }
+  start () {
+    this.progress.indeterminate = true
+  }
+  stop () {
+    this.progress.indeterminate = false
+  }
+}
 
-export const getCredential = async (config) => {
-  const nonce = $('meta[name="nonce"]').content;
+export const loading = new Loading()
 
-  const providersWithNonce = providers.map((provider) => {
+export const getCredential = async config => {
+  const nonce = $('meta[name="nonce"]').content
+
+  const providersWithNonce = providers.map(provider => {
     let newProvider = {
       ...provider,
-      nonce: nonce,
-    };
+      nonce: nonce
+    }
 
     // Only add the scope if it's defined
     if (config && config.scope) {
-      newProvider.scope = config.scope;
+      newProvider.scope = config.scope
     }
 
-    return newProvider;
-  });
+    return newProvider
+  })
 
   let identity = {
-    providers: providersWithNonce,
-  };
+    providers: providersWithNonce
+  }
 
   // Only add the context if it's defined in the config
   if (config && config.context) {
-    identity.context = config.context;
+    identity.context = config.context
   }
-  
+
   // Only add the mediation if it's defined in the config
   if (config && config.mediation) {
-    identity.mediation = config.mediation;
+    identity.mediation = config.mediation
   }
 
   console.log(identity)
-  
+
   return navigator.credentials.get({
-    identity: identity,
-  });
-};
+    identity: identity
+  })
+}
 
 export const handleConfigSave = async () => {
-  const scopeInput = $("#scope-input").value.split(",");
-  const contextInput = $("#context-input").value;
-  const modeInput = $("#mode-input").value; // Get the value of the mode input field
-  const userInfoInput = document.getElementById("user-info-toggle").selected
-  const mediationInput = $("#mediation-input").value; // Get the value of the mediation mode input field
+  const scopeInput = $('#scope-input').value.split(',')
+  const contextInput = $('#context-input').value
+  const modeInput = $('#mode-input').value // Get the value of the mode input field
+  const userInfoInput = document.getElementById('user-info-toggle').selected
+  const mediationInput = $('#mediation-input').value // Get the value of the mediation mode input field
 
-  const response = await fetch("/config-save", {
-    method: "POST",
+  const response = await fetch('/config-save', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ scopeInput, contextInput, modeInput, userInfoInput, mediationInput }), // Include modeInput in the object
-  });
+    body: JSON.stringify({
+      scopeInput,
+      contextInput,
+      modeInput,
+      userInfoInput,
+      mediationInput
+    }) // Include modeInput in the object
+  })
 
   if (response.ok) {
     // Configuration saved successfully, handle any necessary actions
-    location.reload();
+    location.reload()
   } else {
     // Handle any error cases
-    console.error("Failed to save configuration");
+    console.error('Failed to save configuration')
   }
-};
+}
 
-export const switchTab = (tabId) => {
+export const switchTab = tabId => {
   // Hide all tabs
-  $("#main-sections").classList.add("hidden");
-  $("#settings-tab").classList.add("hidden");
+  $('#main-sections').classList.add('hidden')
+  $('#settings-tab').classList.add('hidden')
 
   // Show the selected tab
-  $(`#${tabId}`).classList.remove("hidden");
-};
+  $(`#${tabId}`).classList.remove('hidden')
+}
 
-export const signout = (account_id) => async () => {
+export const signout = account_id => async () => {
   try {
-    loading.start();
-    toast("You are signed out. Redirecting in 3.0 sec.");
+    loading.start()
+    toast('You are signed out. Redirecting in 3.0 sec.')
     setTimeout(() => {
-      location.href = "/signout";
-    }, 3000);
+      location.href = '/signout'
+    }, 3000)
   } catch (e) {
-    loading.stop();
-    console.error(e);
-    toast(e.message);
+    loading.stop()
+    console.error(e)
+    toast(e.message)
   }
-};
+}
 
 // create personlized button (IFrame served from IDP) at given div containerID
-export const createIframe = (containerId) => {
-  const iframe = document.createElement("iframe");
+export const createIframe = containerId => {
+  const iframe = document.createElement('iframe')
   const clientId = CLIENT_ID_B
-  const origin_idp = new URL(IDP_ORIGIN_B).origin;
-  
-  iframe.src = `${origin_idp}/fedcm/embedded?clientId=${encodeURIComponent(clientId)}`;
-  iframe.referrerPolicy = "origin";
-  iframe.allow = 'identity-credentials-get';
+  const origin_idp = new URL(IDP_ORIGIN_B).origin
 
-  const container = document.getElementById(containerId);
+  iframe.src = `${origin_idp}/fedcm/embedded?clientId=${encodeURIComponent(
+    clientId
+  )}`
+  iframe.referrerPolicy = 'origin'
+  iframe.allow = 'identity-credentials-get'
+
+  const container = document.getElementById(containerId)
 
   if (container) {
-    container.append(iframe);
+    container.append(iframe)
   } else {
     console.warn(
       `Container with id ${containerId} not found. Appending iframe to body.`
-    );
+    )
   }
-};
+}
