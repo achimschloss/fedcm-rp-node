@@ -2,3 +2,7 @@
 .node-gyp
 node_modules
 dist
+.bash_history
+.data/db.json
+.config/glitch-package-manager
+.env
