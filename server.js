@@ -26,6 +26,12 @@ const jwt = require('jsonwebtoken')
 const { csrfCheck, sessionCheck, getUser } = require('./libs/common')
 const app = express()
 
+// IDP Config, replace with your own
+const idpConfig = {
+  configURL: 'http://localhost:8080/fedcm.json',
+  clientId: 'yourClientID'
+}
+
 // register the helper function
 hbs.registerHelper('eq', function (a, b) {
   return a === b
@@ -70,10 +76,8 @@ app.use((req, res, next) => {
   if (!req.session.config) {
     req.session.config = {
       mode: 'onclick',
-      mediation: 'optional'
-      // Initialize other config properties as needed
-      // scope: [],
-      // context: [],
+      mediation: 'optional',
+      idpConfig
     }
   }
 
@@ -145,7 +149,11 @@ app.get('/', (req, res) => {
     res.redirect('/home')
   } else {
     // Render the default index.html if 'req.session.user' doesn't exist
-    res.render('index.html', { nonce, ot_token, config })
+    res.render('index.html', {
+      nonce,
+      ot_token,
+      config
+    })
   }
 })
 
@@ -164,7 +172,9 @@ app.post('/config-save', (req, res) => {
           context: contextInput,
           mode: modeInput,
           userInfoEnabled: userInfoInput,
-          mediation: mediationInput
+          mediation: mediationInput,
+          //always set the current idpConfig
+          idpConfig
         }
       : undefined
 

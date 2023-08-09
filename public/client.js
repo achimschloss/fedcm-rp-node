@@ -23,24 +23,6 @@ import {
   render
 } from 'https://unpkg.com/lit-html@2.2.0/lit-html.js?module'
 
-const IDP_ORIGIN_A = ''
-const IDP_ORIGIN_B = 'http://localhost:8080/fedcm.json'
-
-const CLIENT_ID_A = 'asdfasdfw23e4234qw'
-const CLIENT_ID_B = 'yourClientID'
-
-// MultiIDP is only available as behind a feature flag
-const providers = [
-  /*{
-    configURL: IDP_ORIGIN_A,
-    clientId: CLIENT_ID_A,
-  },*/
-  {
-    configURL: IDP_ORIGIN_B,
-    clientId: CLIENT_ID_B
-  }
-]
-
 export const $ = document.querySelector.bind(document)
 
 export const toast = text => {
@@ -92,6 +74,13 @@ export const loading = new Loading()
 
 export const getCredential = async config => {
   const nonce = $('meta[name="nonce"]').content
+  // MultiIDP is only available as behind a feature flag
+  const providers = [
+    {
+      configURL: config.idpConfig.configURL,
+      clientId: config.idpConfig.clientId
+    }
+  ]
 
   const providersWithNonce = providers.map(provider => {
     let newProvider = {
@@ -182,10 +171,10 @@ export const signout = account_id => async () => {
 }
 
 // create personlized button (IFrame served from IDP) at given div containerID
-export const createIframe = containerId => {
+export const createIframe = (containerId, idpConfig) => {
   const iframe = document.createElement('iframe')
-  const clientId = CLIENT_ID_B
-  const origin_idp = new URL(IDP_ORIGIN_B).origin
+  const clientId = idpConfig.clientId
+  const origin_idp = new URL(idpConfig.configURL).origin
 
   iframe.src = `${origin_idp}/fedcm/embedded?clientId=${encodeURIComponent(
     clientId

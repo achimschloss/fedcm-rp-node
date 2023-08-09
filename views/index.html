@@ -20,242 +20,223 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>FedCM RP Demo</title>
-    <meta name="description" content="FedCM RP Demo" />
-    <link
-      id="favicon"
-      rel="icon"
-      href="https://cdn.glitch.me/94838ffe-241b-4a67-a9e0-290bfe34c351%2Fbank.png?v=1639111444422"
-      type="image/x-icon"
-    />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="/styles-bundle.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.css"
-    />
-    <script src="components-bundle.js" type="module"></script>
-    <meta name="nonce" content="{{nonce}}" />
-    <meta http-equiv="origin-trial" content="{{ot_token}}" />
-  </head>
-  <body class="mdc-typography">
-    <mwc-top-app-bar-fixed>
-      <span slot="title">FedCM RP Demo</span>
-      <mwc-icon-button
-        id="home"
-        icon="home"
-        slot="actionItems"
-      ></mwc-icon-button>
-      <mwc-icon-button
-        id="settings"
-        icon="settings"
-        slot="actionItems"
-      ></mwc-icon-button>
-      <mwc-icon-button
-        id="code"
-        icon="code"
-        slot="actionItems"
-      ></mwc-icon-button>
-    </mwc-top-app-bar-fixed>
-    <mwc-linear-progress id="progress"></mwc-linear-progress>
-    <main class="content">
-      <h2 class="center">Welcome to FedCM RP Demo!</h2>
-      <p id="unsupported" class="warning hidden">
-        Your browser does not support FedCM. Try on Chrome for Android with a
-        flag chrome://flags/#fedcm.
-      </p>
-      <div id="settings-tab" class="center hidden">
-        <h2>Settings</h2>
-        <!-- Your existing settings UI goes here -->
+<head>
+  <title>FedCM RP Demo</title>
+  <meta name="description" content="FedCM RP Demo" />
+  <link id="favicon" rel="icon"
+    href="https://cdn.glitch.me/94838ffe-241b-4a67-a9e0-290bfe34c351%2Fbank.png?v=1639111444422" type="image/x-icon" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/styles-bundle.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.css" />
+  <script src="components-bundle.js" type="module"></script>
+  <meta name="nonce" content="{{nonce}}" />
+  <meta http-equiv="origin-trial" content="{{ot_token}}" />
+</head>
+
+<body class="mdc-typography">
+  <mwc-top-app-bar-fixed>
+    <span slot="title">FedCM RP Demo</span>
+    <mwc-icon-button id="home" icon="home" slot="actionItems"></mwc-icon-button>
+    <mwc-icon-button id="settings" icon="settings" slot="actionItems"></mwc-icon-button>
+    <mwc-icon-button id="code" icon="code" slot="actionItems"></mwc-icon-button>
+  </mwc-top-app-bar-fixed>
+  <mwc-linear-progress id="progress"></mwc-linear-progress>
+  <main class="content">
+    <h2 class="center">Welcome to FedCM RP Demo!</h2>
+    <p id="unsupported" class="warning hidden">
+      Your browser does not support FedCM. Try on Chrome for Android with a
+      flag chrome://flags/#fedcm.
+    </p>
+    <div id="settings-tab" class="center hidden">
+      <h2>Settings</h2>
+      <!-- Your existing settings UI goes here -->
+      <div class="config-container">
+        <div class="config-item">
+          <label for="mode-input">Mode:</label>
+          <mwc-select id="mode-input" outlined>
+            <mwc-list-item value="pageload" {{#if (eq config.mode 'pageload' )}}selected{{/if}}>PageLoad</mwc-list-item>
+            <mwc-list-item value="onclick" {{#if (eq config.mode 'onclick' )}}selected{{/if}}>On-Click</mwc-list-item>
+          </mwc-select>
+        </div>
         <div class="config-container">
           <div class="config-item">
-            <label for="mode-input">Mode:</label>
-            <mwc-select id="mode-input" outlined>
-              <mwc-list-item value="pageload" {{#if (eq config.mode 'pageload')}}selected{{/if}}>PageLoad</mwc-list-item>
-              <mwc-list-item value="onclick" {{#if (eq config.mode 'onclick')}}selected{{/if}}>On-Click</mwc-list-item>
-            </mwc-select>
-          </div>
-          <div class="config-container">
-            <div class="config-item">
             <label for="mediation-input">Mediation:</label>
             <mwc-select id="mediation-input" outlined>
-              <mwc-list-item value="silent" {{#if (eq config.mediation 'silent')}}selected{{/if}}>Silent</mwc-list-item>
-              <mwc-list-item value="optional" {{#if (eq config.mediation 'optional')}}selected{{/if}}>Optional</mwc-list-item>
-              <mwc-list-item value="conditional" {{#if (eq config.mediation 'conditional')}}selected{{/if}}>Conditional</mwc-list-item>
-              <mwc-list-item value="required" {{#if (eq config.mediation 'required')}}selected{{/if}}>Required</mwc-list-item>
+              <mwc-list-item value="silent" {{#if (eq config.mediation 'silent'
+                )}}selected{{/if}}>Silent</mwc-list-item>
+              <mwc-list-item value="optional" {{#if (eq config.mediation 'optional'
+                )}}selected{{/if}}>Optional</mwc-list-item>
+              <mwc-list-item value="conditional" {{#if (eq config.mediation 'conditional'
+                )}}selected{{/if}}>Conditional</mwc-list-item>
+              <mwc-list-item value="required" {{#if (eq config.mediation 'required'
+                )}}selected{{/if}}>Required</mwc-list-item>
             </mwc-select>
-            </div>
-          </div> 
-          <div class="config-item">
-            <label for="scope-input">Scope:</label>
-            <mwc-textfield
-              outlined
-              id="scope-input"
-              label="Scope"
-              placeholder="email,name,picture"
-              value="{{config.scope}}"
-            ></mwc-textfield>
-          </div>
-          <div class="config-item">
-            <label for="context-input">Context:</label>
-            <mwc-textfield
-              id="context-input"
-              placeholder="use"
-              label="Context"
-              value="{{config.context}}"
-              outlined
-            >
-            </mwc-textfield>
-          </div>
-          <div class="config-item">
-            <label for="user-info-toggle">User Info:</label>
-              <mwc-switch
-                id="user-info-toggle"
-                {{#if config.userInfoEnabled}}selected{{/if}}>
-              ></mwc-switch>
           </div>
         </div>
-        <mwc-button id="config-save" raised>Save</mwc-button>
+        <div class="config-item">
+          <label for="scope-input">Scope:</label>
+          <mwc-textfield outlined id="scope-input" label="Scope" placeholder="email,name,picture"
+            value="{{config.scope}}"></mwc-textfield>
+        </div>
+        <div class="config-item">
+          <label for="context-input">Context:</label>
+          <mwc-textfield id="context-input" placeholder="use" label="Context" value="{{config.context}}" outlined>
+          </mwc-textfield>
+        </div>
+        <div class="config-item">
+          <label for="user-info-toggle">User Info:</label>
+          <mwc-switch id="user-info-toggle" {{#if config.userInfoEnabled}}selected{{/if}}>
+            ></mwc-switch>
+        </div>
       </div>
+      <mwc-button id="config-save" raised>Save</mwc-button>
+    </div>
 
-      <div id="main-sections">
-        <div id="profile" class="center"></div>
-        <div id="login" class="center">
-          {{#if (eq config.mode 'pageload')}}
-          <p class="instructions">
-            If you don't see a sign-in dialog, you need to sign-in on the IDP
-            first. The IDP might also need to "wake-up" again given its a
-            testing setup its not always running. Visiting the IDP will help in
-            this case too
-          </p>
-          {{/if}} {{#if (eq config.mode 'onclick')}}
-          <p class="instructions">
-            FedCM is triggered on an exlicit click. If you don't see a sign-in
-            dialog afterwards, you need to sign-in on the IDP first. The IDP
-            might also need to "wake-up" again given its a testing setup its not
-            always running. Visiting the IDP will help in this case too
-          </p>
-          <mwc-button id="signOnButton" raised>Sign In</mwc-button>
-          {{/if}}
-          <!-- Add a button to link to the sign-in page -->
-          <a href="https://dry-lake-09460.herokuapp.com/">
-            <mwc-button raised>Visit IDP</mwc-button>
-          </a>
-        </div>
-        {{#if config.userInfoEnabled}}
-        <div id="personalizedButton" class="iframe-container"></div>
+    <div id="main-sections">
+      <div id="profile" class="center"></div>
+      <div id="login" class="center">
+        {{#if (eq config.mode 'pageload')}}
+        <p class="instructions">
+          If you don't see a sign-in dialog, you need to sign-in on the IDP
+          first. The IDP might also need to "wake-up" again given its a
+          testing setup its not always running. Visiting the IDP will help in
+          this case too
+        </p>
+        {{/if}} {{#if (eq config.mode 'onclick')}}
+        <p class="instructions">
+          FedCM is triggered on an exlicit click. If you don't see a sign-in
+          dialog afterwards, you need to sign-in on the IDP first. The IDP
+          might also need to "wake-up" again given its a testing setup its not
+          always running. Visiting the IDP will help in this case too
+        </p>
+        <mwc-button id="signOnButton" raised>Sign In</mwc-button>
         {{/if}}
+        <!-- Add a button to link to the sign-in page -->
+        <a href="https://dry-lake-09460.herokuapp.com/" id="idp-link">
+          <mwc-button raised>Visit IDP</mwc-button>
+        </a>
       </div>
-    </main>
-    <script type="module">
-      import {
-        $,
-        toast,
-        loading,
-        _fetch,
-        getCredential,
-        handleConfigSave,
-        switchTab,
-        createIframe,
-      } from "./client.js";
+      {{#if config.userInfoEnabled}}
+      <div id="personalizedButton" class="iframe-container"></div>
+      {{/if}}
+    </div>
+  </main>
+  <script type="module">
+    import {
+      $,
+      toast,
+      loading,
+      _fetch,
+      getCredential,
+      handleConfigSave,
+      switchTab,
+      createIframe,
+    } from "./client.js";
 
-      $("#home").addEventListener("click", () => location.reload());
-      $("#settings").addEventListener("click", () => switchTab("settings-tab"));
-      $("#code").addEventListener("click", (e) => {
-        location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
-      });
-      $("#config-save").addEventListener("click", handleConfigSave);
+    $("#home").addEventListener("click", () => location.reload());
+    $("#settings").addEventListener("click", () => switchTab("settings-tab"));
+    $("#code").addEventListener("click", (e) => {
+      location.href = "https://glitch.com/edit/#!/furtive-candy-cauliflower";
+    });
+    $("#config-save").addEventListener("click", handleConfigSave);
 
-      let config;
+    let config;
 
-      // initalize from backend and start getCredential if set to onPageload
-      async function initialize() {
-        const configResponse = await fetch("/config");
-        config = await configResponse.json();
+    // initalize from backend and start getCredential if set to onPageload
+    async function initialize() {
+      const configResponse = await fetch("/config");
+      config = await configResponse.json();
+      const idpConfig = config.idpConfig
 
-        if ("IdentityCredential" in window) {
-          if (config && config.mode === "pageload") {
-            signIn();
-          } else {
-            $("#signOnButton").addEventListener("click", async function () {
-              await signIn();
-            });
-          }
+      // Extract the scheme and origin from the IDP_ORIGIN variable
+      const url = new URL(idpConfig.configURL);
+      const idpOrigin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
+
+      // Set the IDP link to the IDP origin
+      const idpLink = document.getElementById('idp-link');
+      idpLink.href = idpOrigin;
+
+      if ("IdentityCredential" in window) {
+        if (config && config.mode === "pageload") {
+          signIn();
         } else {
-          $("#unsupported").classList.remove("hidden");
+          $("#signOnButton").addEventListener("click", async function () {
+            await signIn();
+          });
         }
-        
-        if(config && config.userInfoEnabled) {
-          createIframe("personalizedButton");
-        }
+      } else {
+        $("#unsupported").classList.remove("hidden");
       }
 
-      initialize().catch((err) => console.error(err));
+      if (config && config.userInfoEnabled) {
+        createIframe("personalizedButton", config.idpConfig);
+      }
+    }
 
-      const signIn = async () => {
+    initialize().catch((err) => console.error(err));
+
+    const signIn = async () => {
+      try {
         try {
-          try {
-            const credential = await getCredential(config);
-            const nonce = $('meta[name="nonce"]').content;
-            const token = credential.token; //await credential.login({ nonce });
-            console.log(token);
-            await _fetch("/verify", { token });
-            /* 
-               Reload the page in case no error occurs (i.e. user was signed in successfully)
-               Note this is a simplistic example to finish the login flow. We do a very basic ID Token 
-               verification with a fixed secret (see server.js). If this would be a OPEN_ID based IDP (outside of FedCM) 
-               the usual mechanisms would be applied for ID Token verfication, or the token here might be a
-               authorization code and could for example reload the /auth callback of the RP with the code
-            */
-            location.reload();
-          } catch (e) {
-            console.error(e);
-            toast(e.message);
-          }
+          const credential = await getCredential(config);
+          const nonce = $('meta[name="nonce"]').content;
+          const token = credential.token; //await credential.login({ nonce });
+          console.log(token);
+          await _fetch("/verify", { token });
+          /* 
+             Reload the page in case no error occurs (i.e. user was signed in successfully)
+             Note this is a simplistic example to finish the login flow. We do a very basic ID Token 
+             verification with a fixed secret (see server.js). If this would be a OPEN_ID based IDP (outside of FedCM) 
+             the usual mechanisms would be applied for ID Token verfication, or the token here might be a
+             authorization code and could for example reload the /auth callback of the RP with the code
+          */
+          location.reload();
         } catch (e) {
           console.error(e);
           toast(e.message);
         }
-      };
+      } catch (e) {
+        console.error(e);
+        toast(e.message);
+      }
+    };
 
-      const signout = (account_id) => async () => {
-        try {
-          loading.start();
-          toast("You are signed out. Redirecting in 3.0 sec.");
-          setTimeout(() => {
-            location.href = "/signout";
-          }, 3000);
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          toast(e.message);
-        }
-      };
+    const signout = (account_id) => async () => {
+      try {
+        loading.start();
+        toast("You are signed out. Redirecting in 3.0 sec.");
+        setTimeout(() => {
+          location.href = "/signout";
+        }, 3000);
+      } catch (e) {
+        loading.stop();
+        console.error(e);
+        toast(e.message);
+      }
+    };
 
-      const unregister = (username) => async () => {
-        try {
-          loading.start();
-          const credential = await getCredential();
-          await credential.revoke(username);
-          toast("Your account is revoked. Redirecting in 3.0 sec.");
-          setTimeout(() => {
-            location.href = "/signout";
-          }, 3000);
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          toast(e.message);
-        }
-      };
-    </script>
-    <mwc-snackbar id="snackbar"></mwc-snackbar>
-  </body>
+    const unregister = (username) => async () => {
+      try {
+        loading.start();
+        const credential = await getCredential();
+        await credential.revoke(username);
+        toast("Your account is revoked. Redirecting in 3.0 sec.");
+        setTimeout(() => {
+          location.href = "/signout";
+        }, 3000);
+      } catch (e) {
+        loading.stop();
+        console.error(e);
+        toast(e.message);
+      }
+    };
+  </script>
+  <mwc-snackbar id="snackbar"></mwc-snackbar>
+</body>
+
 </html>

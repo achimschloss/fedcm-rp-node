@@ -1,42 +1,66 @@
-# Hello Node!
+# FedCM Prototyping RP
 
-This project includes a Node.js server script and a web page that connects to it. The front-end page presents a form the visitor can use to submit a color name, sending the submitted value to the back-end API running on the server. The server returns info to the page that allows it to update the display with the chosen color. 🎨
+This is an standalone demonstrator RP implementation that provides basic functionality
+for testing a relying party implementation of the [FedCM API](https://fedidcg.github.io/FedCM/).
 
-[Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run server-side JavaScript. This project uses the [Fastify](https://www.fastify.io/) framework and explores basic templating with [Handlebars](https://handlebarsjs.com/).
+This is **absolutely** not meant for production use
 
-## Prerequisites
+## Getting Started
 
-You'll get best use out of this project if you're familiar with basic JavaScript. If you've written JavaScript for client-side web pages this is a little different because it uses server-side JS, but the syntax is the same!
+To get started:
 
-## What's in this project?
+1. Clone this repository
+2. Install node.js and npm
+3. Install dependencies
 
-← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.
+   ```shell
+   npm install
+   ```
 
-← `public/style.css`: The styling rules for the pages in your site.
+4. Build the project
 
-← `server.js`: The **Node.js** server script for your new site. The JavaScript defines the endpoints in the site back-end, one to return the homepage and one to update with the submitted color. Each one sends data to a Handlebars template which builds these parameter values into the web page the visitor sees.
+   ```shell
+   npm run build
+   ```
 
-← `package.json`: The NPM packages for your project's dependencies.
+5. Run on localhost (defaults to port 7080)
 
-← `src/`: This folder holds the site template along with some basic data files.
+   ```shell
+   npm start
+   ```
 
-← `src/pages/index.hbs`: This is the main page template for your site. The template receives parameters from the server script, which it includes in the page HTML. The page sends the user submitted color value in the body of a request, or as a query parameter to choose a random color.
+**Note:** The FedCM APIs can be tested using an IDP that runs on a different port on localhost.
 
-← `src/colors.json`: A collection of CSS color names. We use this in the server script to pick a random color, and to match searches against color names.
+## Deployment options
 
-← `src/seo.json`: When you're ready to share your new site or add a custom domain, change SEO/meta settings in here.
+Currently this setup only supports running on localhost or behind a reverse proxy (does not support HTTPS on its own)
 
-## Try this next 🏗️
+## General configuration
 
-Take a look in `TODO.md` for next steps you can try out in your new site!
+### Clients
 
-___Want a minimal version of this project to build your own Node.js app? Check out [Blank Node](https://glitch.com/edit/#!/remix/glitch-blank-node)!___
+Currently hard-coded `public/client.js` - change `IDP_ORIGIN` and `CLIENT_ID` to match your RP's client ID and redirect URI and run `npm run build` again.
 
-![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
+## Supported features
 
-## You built this with Glitch!
+RP:
 
-[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.
+- Trigger sign-in/sign-up flow with IDP (defaults to On-click, see below)
+- Profile page
+- Sign-out of RP
+- RP side configuration of FedCM API
+- Implementation expects 
+  - navigator.credentials.get API to resolve to a `token` which is a valid JWT signed with a shared secret `xxxxxxx`
+  - JWT is expected to contain claims sub (required), email, name and picture 
 
-- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.
-- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.
+FedCM specifics:
+
+- FedCM [Browser API](https://fedidcg.github.io/FedCM/#browser-api) 
+- Default configuration will supply the set client_id, configURL as well as a random nonce to the API
+- Configurable features (via UI) are session specific and can be changed at any given time
+  - Usage Mode (On-click, Pageload)
+  - [Mediation Mode](https://w3c.github.io/webappsec-credential-management/#dom-credentialrequestoptions-mediation) (optional, silent, required, conditional)
+  - RP context ([IdentityCredentialRequestOptionsContext](https://fedidcg.github.io/FedCM/#dom-identityprovider-getuserinfo:~:text=IdentityCredentialRequestOptions%2C%20in%20%C2%A7%E2%80%AF2.2.1-,IdentityCredentialRequestOptionsContext,-%2C%20in%20%C2%A7%E2%80%AF2.2.1)) 
+  - [UserInfo API](https://fedidcg.github.io/FedCM/#dom-identityprovider-getuserinfo)
+  - Minimal support for different scopes
+ 
