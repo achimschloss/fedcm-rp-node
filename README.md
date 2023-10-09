@@ -49,18 +49,17 @@ RP:
 - Profile page
 - Sign-out of RP
 - RP side configuration of FedCM API
-- Implementation expects 
+- Implementation expects
   - navigator.credentials.get API to resolve to a `token` which is a valid JWT signed with a shared secret `xxxxxxx`
-  - JWT is expected to contain claims sub (required), email, name and picture 
+  - JWT is expected to contain claims sub (required), email, name and picture
 
 FedCM specifics:
 
-- FedCM [Browser API](https://fedidcg.github.io/FedCM/#browser-api) 
+- FedCM [Browser API](https://fedidcg.github.io/FedCM/#browser-api)
 - Default configuration will supply the set client_id, configURL as well as a random nonce to the API
 - Configurable features (via UI) are session specific and can be changed at any given time
-  - Usage Mode (On-click, Pageload)
+  - [Usage Mode](https://github.com/fedidcg/FedCM/issues/442#issuecomment-1675007152) (On-click (mode=Widget), Pageload (mode=Widget), Button (mode=button - Experimental))
   - [Mediation Mode](https://w3c.github.io/webappsec-credential-management/#dom-credentialrequestoptions-mediation) (optional, silent, required, conditional)
-  - RP context ([IdentityCredentialRequestOptionsContext](https://fedidcg.github.io/FedCM/#dom-identityprovider-getuserinfo:~:text=IdentityCredentialRequestOptions%2C%20in%20%C2%A7%E2%80%AF2.2.1-,IdentityCredentialRequestOptionsContext,-%2C%20in%20%C2%A7%E2%80%AF2.2.1)) 
+  - RP context ([IdentityCredentialRequestOptionsContext](https://fedidcg.github.io/FedCM/#dom-identityprovider-getuserinfo:~:text=IdentityCredentialRequestOptions%2C%20in%20%C2%A7%E2%80%AF2.2.1-,IdentityCredentialRequestOptionsContext,-%2C%20in%20%C2%A7%E2%80%AF2.2.1))
   - [UserInfo API](https://fedidcg.github.io/FedCM/#dom-identityprovider-getuserinfo)
   - Minimal support for different scopes
- 

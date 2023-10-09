@@ -61,6 +61,8 @@
           <mwc-select id="mode-input" outlined>
             <mwc-list-item value="pageload" {{#if (eq config.mode 'pageload' )}}selected{{/if}}>PageLoad</mwc-list-item>
             <mwc-list-item value="onclick" {{#if (eq config.mode 'onclick' )}}selected{{/if}}>On-Click</mwc-list-item>
+            <mwc-list-item value="button" {{#if (eq config.mode 'button' )}}selected{{/if}}>Button
+              (Experimental)</mwc-list-item>
           </mwc-select>
         </div>
         <div class="config-container">
@@ -100,20 +102,16 @@
     <div id="main-sections">
       <div id="profile" class="center"></div>
       <div id="login" class="center">
-        {{#if (eq config.mode 'pageload')}}
         <p class="instructions">
           If you don't see a sign-in dialog, you need to sign-in on the IDP
           first. The IDP might also need to "wake-up" again given its a
           testing setup its not always running. Visiting the IDP will help in
           this case too
         </p>
-        {{/if}} {{#if (eq config.mode 'onclick')}}
-        <p class="instructions">
-          FedCM is triggered on an exlicit click. If you don't see a sign-in
-          dialog afterwards, you need to sign-in on the IDP first. The IDP
-          might also need to "wake-up" again given its a testing setup its not
-          always running. Visiting the IDP will help in this case too
-        </p>
+        {{#if (eq config.mode 'onclick')}}
+        <mwc-button id="signOnButton" raised>Sign In</mwc-button>
+        {{/if}}
+        {{#if (eq config.mode 'button')}}
         <mwc-button id="signOnButton" raised>Sign In</mwc-button>
         {{/if}}
         <!-- Add a button to link to the sign-in page -->

@@ -110,6 +110,12 @@ export const getCredential = async config => {
     identity.mediation = config.mediation
   }
 
+  // Add button mode if it's defined in the config
+  // Widget is default
+  if (config && config.mode === 'button') {
+    identity.mode = config.mode
+  }
+
   console.log(identity)
 
   return navigator.credentials.get({
