@@ -152,7 +152,7 @@
       const idpConfig = config.idpConfig
 
       // Extract the scheme and origin from the first entry of the configURL array in idpConfig
-      const url = new URL(config.idpConfig.configURL[0]);
+      const url = new URL(config.idpConfig[0].configURL);
       const idpOrigin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
 
       // Set the IDP link to the IDP origin
