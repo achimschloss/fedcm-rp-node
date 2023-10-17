@@ -176,25 +176,27 @@ export const signout = account_id => async () => {
   }
 }
 
-// create personlized button (IFrame served from IDP) at given div containerID
-export const createIframe = (containerId, idpConfig) => {
-  const iframe = document.createElement('iframe')
-  const clientId = idpConfig.clientId
-  const origin_idp = new URL(idpConfig.configURL).origin
-
-  iframe.src = `${origin_idp}/fedcm/embedded?clientId=${encodeURIComponent(
-    clientId
-  )}`
-  iframe.referrerPolicy = 'origin'
-  iframe.allow = 'identity-credentials-get'
-
+export const createIframes = (containerId, idpConfig) => {
   const container = document.getElementById(containerId)
 
-  if (container) {
-    container.append(iframe)
-  } else {
+  if (!container) {
     console.warn(
-      `Container with id ${containerId} not found. Appending iframe to body.`
+      `Container with id ${containerId} not found. Appending iframes to body.`
     )
+    return
   }
+
+  idpConfig.forEach(idp => {
+    const iframe = document.createElement('iframe')
+    const clientId = idp.clientId
+    const origin_idp = new URL(idp.configURL).origin
+
+    iframe.src = `${origin_idp}/fedcm/embedded?clientId=${encodeURIComponent(
+      clientId
+    )}`
+    iframe.referrerPolicy = 'origin'
+    iframe.allow = 'identity-credentials-get'
+
+    container.append(iframe)
+  })
 }

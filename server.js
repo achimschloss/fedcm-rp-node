@@ -27,20 +27,17 @@ const { csrfCheck, sessionCheck, getUser } = require('./libs/common')
 const app = express()
 
 // IDP Config, replace with your own
-const idpConfig = [
-  {
-    configURL: 'http://localhost:8080/fedcm1.json',
-    clientId: 'yourClientID1'
-  } /*,
-  {
-    configURL: 'http://localhost:8080/fedcm2.json',
-    clientId: 'yourClientID2'
-  }*/
-]
+const fs = require('fs')
+const idpConfig = JSON.parse(fs.readFileSync('./config/idpConfig.json'))
 
 // register the helper function
 hbs.registerHelper('eq', function (a, b) {
   return a === b
+})
+
+hbs.registerHelper('getOrigin', function (url) {
+  const origin = new URL(url).origin
+  return origin
 })
 
 app.set('view engine', 'html')

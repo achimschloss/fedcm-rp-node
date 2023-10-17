@@ -56,7 +56,7 @@ RP:
 FedCM specifics:
 
 - FedCM [Browser API](https://fedidcg.github.io/FedCM/#browser-api)
-- Default configuration will supply the set client_id, configURL as well as a random nonce to the API
+- Support for multiple IDPs, configuration is contained in `config/idpConfig.json`. **Note** that multi-IDP support is not properly working at this time on the browser side. Random nonce is automatically added
 - Configurable features (via UI) are session specific and can be changed at any given time
   - [Usage Mode](https://github.com/fedidcg/FedCM/issues/442#issuecomment-1675007152) (On-click (mode=Widget), Pageload (mode=Widget), Button (mode=button - Experimental))
   - [Mediation Mode](https://w3c.github.io/webappsec-credential-management/#dom-credentialrequestoptions-mediation) (optional, silent, required, conditional)
