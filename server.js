@@ -27,10 +27,16 @@ const { csrfCheck, sessionCheck, getUser } = require('./libs/common')
 const app = express()
 
 // IDP Config, replace with your own
-const idpConfig = {
-  configURL: 'http://localhost:8080/fedcm.json',
-  clientId: 'yourClientID'
-}
+const idpConfig = [
+  {
+    configURL: 'http://localhost:8080/fedcm1.json',
+    clientId: 'yourClientID1'
+  } /*,
+  {
+    configURL: 'http://localhost:8080/fedcm2.json',
+    clientId: 'yourClientID2'
+  }*/
+]
 
 // register the helper function
 hbs.registerHelper('eq', function (a, b) {
@@ -77,7 +83,7 @@ app.use((req, res, next) => {
     req.session.config = {
       mode: 'onclick',
       mediation: 'optional',
-      idpConfig
+      idpConfig: idpConfig
     }
   }
 
@@ -174,7 +180,7 @@ app.post('/config-save', (req, res) => {
           userInfoEnabled: userInfoInput,
           mediation: mediationInput,
           //always set the current idpConfig
-          idpConfig
+          idpConfig: idpConfig
         }
       : undefined
 

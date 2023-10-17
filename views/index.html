@@ -151,8 +151,8 @@
       config = await configResponse.json();
       const idpConfig = config.idpConfig
 
-      // Extract the scheme and origin from the IDP_ORIGIN variable
-      const url = new URL(idpConfig.configURL);
+      // Extract the scheme and origin from the first entry of the configURL array in idpConfig
+      const url = new URL(config.idpConfig.configURL[0]);
       const idpOrigin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
 
       // Set the IDP link to the IDP origin

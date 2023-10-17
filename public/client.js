@@ -75,12 +75,12 @@ export const loading = new Loading()
 export const getCredential = async config => {
   const nonce = $('meta[name="nonce"]').content
   // MultiIDP is only available as behind a feature flag
-  const providers = [
-    {
-      configURL: config.idpConfig.configURL,
-      clientId: config.idpConfig.clientId
+  const providers = config.idpConfig.map(idp => {
+    return {
+      configURL: idp.configURL,
+      clientId: idp.clientId
     }
-  ]
+  })
 
   const providersWithNonce = providers.map(provider => {
     let newProvider = {
