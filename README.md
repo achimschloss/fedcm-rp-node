@@ -37,9 +37,20 @@ Currently this setup only supports running on localhost or behind a reverse prox
 
 ## General configuration
 
-### Clients
+### Client/IDPs
 
-Currently hard-coded `public/client.js` - change `IDP_ORIGIN` and `CLIENT_ID` to match your RP's client ID and redirect URI and run `npm run build` again.
+Configured via `config/idpConfig.json` - Add an entry to the JSON configuration array (may contain multiple). `configURL` is the FedCM config URL for this IDP, `clientId` the registered clientId for this relying party at the IDP.
+
+Default example with an IDP running on localhost:8080 providing the FedCM configuration via fedcm.son
+
+```json
+[
+  {
+    "configURL": "http://localhost:8080/fedcm.json",
+    "clientId": "yourClientID"
+  }
+]
+```
 
 ## Supported features
 
@@ -56,7 +67,7 @@ RP:
 FedCM specifics:
 
 - FedCM [Browser API](https://fedidcg.github.io/FedCM/#browser-api)
-- Support for multiple IDPs, configuration is contained in `config/idpConfig.json`. **Note** that multi-IDP support is not properly working at this time on the browser side. Random nonce is automatically added
+- Support for multiple IDPs. A random nonce is automatically added - **Note** that multi-IDP support is not properly working at this time on the browser side.
 - Configurable features (via UI) are session specific and can be changed at any given time
   - [Usage Mode](https://github.com/fedidcg/FedCM/issues/442#issuecomment-1675007152) (On-click (mode=Widget), Pageload (mode=Widget), Button (mode=button - Experimental))
   - [Mediation Mode](https://w3c.github.io/webappsec-credential-management/#dom-credentialrequestoptions-mediation) (optional, silent, required, conditional)
