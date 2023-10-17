@@ -1,0 +1,6 @@
+[
+  {
+    "configURL": "http://localhost:8080/fedcm.json",
+    "clientId": "yourClientID"
+  }
+]

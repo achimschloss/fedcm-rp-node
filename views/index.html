@@ -115,9 +115,11 @@
         <mwc-button id="signOnButton" raised>Sign In</mwc-button>
         {{/if}}
         <!-- Add a button to link to the sign-in page -->
-        <a href="https://dry-lake-09460.herokuapp.com/" id="idp-link">
-          <mwc-button raised>Visit IDP</mwc-button>
+        {{#each config.idpConfig}}
+        <a href="{{getOrigin this.configURL}}" id="idp-link-{{@index}}">
+          <mwc-button raised>Visit IDP {{@index}}</mwc-button>
         </a>
+        {{/each}}
       </div>
       {{#if config.userInfoEnabled}}
       <div id="personalizedButton" class="iframe-container"></div>
@@ -133,7 +135,7 @@
       getCredential,
       handleConfigSave,
       switchTab,
-      createIframe,
+      createIframes,
     } from "./client.js";
 
     $("#home").addEventListener("click", () => location.reload());
@@ -151,14 +153,6 @@
       config = await configResponse.json();
       const idpConfig = config.idpConfig
 
-      // Extract the scheme and origin from the IDP_ORIGIN variable
-      const url = new URL(idpConfig.configURL);
-      const idpOrigin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
-
-      // Set the IDP link to the IDP origin
-      const idpLink = document.getElementById('idp-link');
-      idpLink.href = idpOrigin;
-
       if ("IdentityCredential" in window) {
         if (config && config.mode === "pageload") {
           signIn();
@@ -172,7 +166,7 @@
       }
 
       if (config && config.userInfoEnabled) {
-        createIframe("personalizedButton", config.idpConfig);
+        createIframes("personalizedButton", config.idpConfig);
       }
     }
 
