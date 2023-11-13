@@ -20,68 +20,66 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>FedCM RP Demo</title>
-    <meta name="description" content="FedCM RP Demo" />
-    <link
-      id="favicon"
-      rel="icon"
-      href="https://cdn.glitch.me/94838ffe-241b-4a67-a9e0-290bfe34c351%2Fbank.png?v=1639111444422"
-      type="image/x-icon"
-    />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="/styles-bundle.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.css"
-    />
-    <script src="components-bundle.js" type="module"></script>
-    <meta name="nonce" content="{{nonce}}" />
-    <meta http-equiv="origin-trial" content="{{ot_token}}" />
-  </head>
+<head>
+  <title>FedCM RP Demo</title>
+  <meta name="description" content="FedCM RP Demo" />
+  <link id="favicon" rel="icon"
+    href="https://cdn.glitch.me/94838ffe-241b-4a67-a9e0-290bfe34c351%2Fbank.png?v=1639111444422" type="image/x-icon" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/styles-bundle.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.css" />
+  <script src="components-bundle.js" type="module"></script>
+  <meta name="nonce" content="{{nonce}}" />
+  <meta http-equiv="origin-trial" content="{{ot_token}}" />
+</head>
+
+<body class="mdc-typography">
+
   <body class="mdc-typography">
-    <body class="mdc-typography">
-      <script type="module">
-        import {
-          $,
-          signout
-        } from "./client.js";
-        
-        $("#code").addEventListener("click", (e) => {
-          location.href =
-            "https://glitch.com/edit/#!/furtive-candy-cauliflower";
-        });
-        $("#sign-out-btn").addEventListener("click", signout("{{user_id}}"));
-      </script>
-    </body>
+    <script type="module">
+      import {
+        $,
+        signout
+      } from "./client.js";
 
-    <mwc-top-app-bar-fixed>
-      <span slot="title">FedCM RP Demo</span>
-      <mwc-icon-button
-        id="code"
-        icon="code"
-        slot="actionItems"
-      ></mwc-icon-button>
-    </mwc-top-app-bar-fixed>
-    <mwc-linear-progress id="progress"></mwc-linear-progress>
-    <main class="content">
-      <h2 class="center">Congrats!</h2>
-      <div id="main-sections">
-        <div id="profile" class="center">
-          <p id="signed-in-msg">You are signed in!</p>
-          <img id="user-picture" class="picture" width="40" src="{{picture}}" />
-          <p id="user-info">{{name}} ({{username}})</p>
-          <mwc-button id="sign-out-btn" raised> Sign-out </mwc-button>
-        </div>
-      </div>
-    </main>
-    <mwc-snackbar id="snackbar"></mwc-snackbar>
+      $("#code").addEventListener("click", (e) => {
+        location.href =
+          "https://glitch.com/edit/#!/furtive-candy-cauliflower";
+      });
+      $("#sign-out-btn").addEventListener("click", signout("{{user_id}}"));
+    </script>
   </body>
+
+  <mwc-top-app-bar-fixed>
+    <span slot="title">FedCM RP Demo</span>
+    <mwc-icon-button id="code" icon="code" slot="actionItems"></mwc-icon-button>
+  </mwc-top-app-bar-fixed>
+  <mwc-linear-progress id="progress"></mwc-linear-progress>
+  <main class="content">
+    <h2 class="center">Congrats!</h2>
+    <div id="main-sections">
+      {{#if user_id}}
+      <div id="profile" class="card center">
+        <p id="signed-in-msg">You are signed in!</p>
+        <img id="user-picture" class="picture" width="40" src="{{picture}}" />
+        <p id="user-info">{{name}} ({{username}})</p>
+      </div>
+      {{/if}}
+      {{#if access_token}}
+      <div id="access" class="card center">
+        <p>Access granted</p>
+        <p id="token-scope">Scope: {{access_token.scope}}</p>
+      </div>
+      {{/if}}
+      <mwc-button class="center" id="sign-out-btn" raised> Sign-out </mwc-button>
+    </div>
+  </main>
+  <mwc-snackbar id="snackbar"></mwc-snackbar>
+</body>
+
 </html>
