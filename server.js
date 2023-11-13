@@ -40,6 +40,10 @@ hbs.registerHelper('getOrigin', function (url) {
   return origin
 })
 
+hbs.registerHelper('or', function (a, b) {
+  return a || b
+})
+
 app.set('view engine', 'html')
 app.engine('html', hbs.__express)
 app.set('views', './views')
@@ -95,16 +99,44 @@ app.post('/verify', csrfCheck, (req, res) => {
     console.log(req.body.token)
     const token = jwt.verify(req.body.token, 'xxxxxxx')
 
-    const user = getUser(token.sub, token.email, token.name, token.picture)
+    // Check if this is a bearer token (scope feature was used)
+    if (!token.token_type) {
+      // In case of a "standard" login we expect an ID Token here directly
+      const user = getUser(token.sub, token.email, token.name, token.picture)
 
-    req.session.user_id = user.user_id
-    req.session.username = user.username
-    req.session.name = user.name
-    req.session.picture = user.picture
-    res.status(200).json({ success: 'ID token valid' })
+      req.session.user_id = user.user_id
+      req.session.username = user.username
+      req.session.name = user.name
+      req.session.picture = user.picture
+      res.status(200).json({ success: 'ID token valid' })
+    } else if (token.token_type && token.token_type === 'Bearer') {
+      // In case of a "scope" login we expect an access and/or ID token here
+      if (token.id_token) {
+        const id_token = jwt.verify(token.id_token, 'xxxxxxx')
+        const user = getUser(
+          id_token.sub,
+          id_token.email,
+          id_token.name,
+          id_token.picture
+        )
+        // set user attributes in session
+        req.session.user_id = user.user_id
+        req.session.username = user.username
+        req.session.name = user.name
+        req.session.picture = user.picture
+      }
+
+      // set access token in session
+      if (token.access_token) {
+        req.session.access_token = jwt.verify(token.access_token, 'xxxxxxx')
+      }
+      res.status(200).json({ success: 'token valid' })
+    } else {
+      res.status(401).json({ error: 'token verification failed.' })
+    }
   } catch (e) {
     console.error(e.message)
-    res.status(401).json({ error: 'ID token verification failed.' })
+    res.status(401).json({ error: 'token verification failed.' })
   }
 })
 
@@ -128,13 +160,14 @@ app.get('/signout', (req, res) => {
 })
 
 app.get('/home', sessionCheck, (req, res) => {
-  const user = res.locals.user
+  const user = res.locals.user || {}
   const config = req.session.config || {}
   res.render('home.html', {
-    user_id: user.user_id,
-    username: user.username,
-    name: user.name,
-    picture: user.picture,
+    user_id: user.user_id || undefined,
+    username: user.username || undefined,
+    name: user.name || undefined,
+    picture: user.picture || undefined,
+    access_token: res.locals.access_token,
     config
   })
 })
@@ -147,8 +180,8 @@ app.get('/', (req, res) => {
   // get session config
   const config = req.session.config || {}
 
-  if (req.session.user_id) {
-    // Redirect to '/home' if 'req.session.user' exists
+  if (req.session.user_id || req.session.access_token) {
+    // Redirect to '/home' if 'req.session.user' or req.session.access_token exists
     res.redirect('/home')
   } else {
     // Render the default index.html if 'req.session.user' doesn't exist

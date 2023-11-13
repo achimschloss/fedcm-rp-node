@@ -46,17 +46,29 @@ function csrfCheck (req, res, next) {
  * If the session doesn't contain `signed-in`, consider the user is not authenticated.
  **/
 function sessionCheck (req, res, next) {
-  if (!req.session.user_id) {
-    res.status(401).json({ error: 'not signed in.' })
-    return
-  }
-  const user = db.get('users').find({ user_id: req.session.user_id }).value()
-  if (!user) {
-    return res.status(401).json({ error: 'User not found.' })
-  }
-  res.locals.user = user
+  // check for available session, user_id and/or access_token
+  if (req.session.user_id || req.session.access_token) {
+    // If a user is found, store it in res.locals.user
+    if (req.session.user_id) {
+      const user = db
+        .get('users')
+        .find({ user_id: req.session.user_id })
+        .value()
+      if (!user) {
+        return res.status(401).json({ error: 'User not found.' })
+      }
+      res.locals.user = user
+    }
 
-  next()
+    // If an access token is present, store it in res.locals.access_token
+    if (req.session.access_token) {
+      res.locals.access_token = req.session.access_token
+    }
+
+    next()
+  } else {
+    res.redirect('/')
+  }
 }
 
 function getUser (user_id, username = '', name = '', picture = '') {
