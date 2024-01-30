@@ -105,22 +105,24 @@ export const getCredential = async config => {
     identity.context = config.context
   }
 
-  // Only add the mediation if it's defined in the config
-  if (config && config.mediation) {
-    identity.mediation = config.mediation
-  }
-
   // Add button mode if it's defined in the config
   // Widget is default
   if (config && config.mode === 'button') {
     identity.mode = config.mode
   }
 
-  console.log(identity)
-
-  return navigator.credentials.get({
+  let options = {
     identity: identity
-  })
+  }
+
+  // Only add the mediation if it's defined in the config
+  if (config && config.mediation) {
+    options.mediation = config.mediation
+  }
+
+  console.log(JSON.stringify(options))
+
+  return navigator.credentials.get(options)
 }
 
 export const handleConfigSave = async () => {
